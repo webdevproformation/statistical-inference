@@ -1,0 +1,2 @@
+Expected values
+The empirical average is a very intuitive idea; it's the middle of our data in a sense. But, what is it estimating? We can formally define the middle of a population distribution. This is the expected value. Expected values are very useful for characterizing populations and usually represent the first thing that we're interested in estimating.

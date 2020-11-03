@@ -1,0 +1,2 @@
+Conditional probability
+Conditional probability is a very intuitive idea, "What is the probability given partial information about what has occurred?". The probability of getting hit by lightning is small. However, it's much larger for people playing outside in open fields during a lightning storm! In these lectures we go over the formal rules of conditional probability.

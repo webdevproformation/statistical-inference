@@ -1,0 +1,126 @@
+Probability
+In this module we discuss probability, the foundation of statistical analysis. Probability assigns a number between 0 and 1 to events to give a sense of the "chance" of the event. Probability has become our default model for apparently random phenomena. Our eventual goal is to use probability models, our formal mechanism for connecting our data to a population. However, before we get to probability models, we need to understand the basics of probability calculus. The next few lectures cover these basics.
+
+////////////////////////////DICE///////////////////////////////////////////////
+
+1. Suppose you rolled the fair die twice. What is the probability of rolling the
+| same number two times in a row?
+
+| Since we don't care what the outcome of the first roll is, its probability is
+| 1. The second roll of the dice has to match the outcome of the first, so that
+| has a probability of 1/6. The probability of both events occurring is 1 *
+| 1/6.
+
+2. Now consider the experiment of rolling 2 dice, one red and one green. Assume
+| the dice are fair and not loaded. How many distinct outcomes are possible?
+
+| Each of the dice has 6 ways to land, and their outcomes are independent of
+| each other. Each way the red die lands can be paired with each way the green
+| die lands. For instance, a "1" on the red dice can occur independently of any
+| of the 6 outcomes of the green dice.
+
+3. Rolling these two dice, what's the probability of rolling a 10?
+
+| Since the highest possible dice roll is a '6', the only combinations which
+| give '10' are 4+6 and 5+5. The first occurs in two ways - red dice gets '4'
+| and green gets '6' OR red gets '6' and green gets '4'. 
+
+4. What sum is the most likely when rolling these two dice?
+
+| The probability of at least one of two events, A and B, occurring is the sum
+| of their individual probabilities minus the probability of their
+| intersection. P(A U B) = P(A) + P(B) - P(A&B).
+| It's easy to see why this is. Calculating P(A) and P(B) counts outcomes that
+| are in both A and B twice, so they're overcounted. The probability of the
+| intersection of the two events, denoted as A&B, must be subtracted from the
+| sum.
+
+5. Back to rolling two dice. Which expression represents the probability of
+| rolling an even number or a number greater than 8?
+
+| It follows that if A and B are disjoint or mutually exclusive, i.e. only one
+| of them can occur, then P(A U B) = P(A)+P(B) . So,  p = (18+10-4)/36
+
+6. Which of the following expressions represents the probability of rolling a
+| number greater than 10?
+
+| Use the answer to the previous question and the fact that the sum of all
+| outcomes must sum to 1 to determine the probability of rolling a number less
+| than or equal to 10. So, p=(2+1)/36
+
+7. Use the answer to the previous question and the fact that the sum of all
+| outcomes must sum to 1 to determine the probability of rolling a number less
+| than or equal to 10.
+
+//////////////////////////////CARDS/////////////////////////////////////////////////
+| A deck of cards is a set of 52 cards, 4 suits of 13 cards each. There are two
+| red suits, diamonds and hearts, and two black suits, spades and clubs. Each
+| of the 13 cards in a suit has a value - an ace which is sometimes thought of
+| as 1, a number from 2 to 10, and 3 face cards, king, queen, and jack. We've
+| created a deck in R for you. Type 'deck' to see it now.
+
+1. When drawing a single card, how many outcomes are possible?
+
+| How many cards are in the deck?
+
+2. If you're dealt a hand of 5 cards, what is the probability of getting all 5
+| of the same value?
+
+3.Suppose you draw a face card and don't replace it in the deck. What is the
+| probability that when you draw a second card it also will be a face card?
+
+4.Suppose you draw a face card and don't replace it in the deck. What is the
+| probability that when you draw a second card it also will be a face card of
+| the same suit?
+
+//////////////////////// Probability /////////////////////////////////////////
+- Class: mult_question
+  Output: For instance, suppose we have a coin which may or may not be fair. Let x=0 represent a 'heads' outcome and x=1 represent a 'tails' outcome of a coin toss. If p is the probability of 'heads' which of the following represents the PMF of the coin toss?  The variable x is either 0 (heads) or 1 (tails).
+  AnswerChoices: (p^x)*(1-p)^(1-x); (p^(1-x))*(1-p)^x
+  CorrectAnswer: (p^(1-x))*(1-p)^x
+  AnswerTests: omnitest(correctVal='(p^(1-x))*(1-p)^x')
+  Hint: The probability p is associated with a 'heads' outcome which occurs when x=0. Which of the two expressions has an exponent of 1 for p when x is 0?
+
+| A probability density function is associated with a continuous random
+| variable. To quote from Wikipedia, it "is a function that describes the
+| relative likelihood for this random variable to take on a given value. The
+| probability of the random variable falling within a particular range of
+| values is given by ... the area under the density function but above the
+| horizontal axis and between the lowest and greatest values of the range."
+
+| We'll repeat two requirements of a probability density function. It must be
+| nonnegative everywhere, and the area under it must equal one."
+
+
+- Class: mult_question
+  Output:  We have to compute the area of the blue triangle. (Since the area of the big triangle is 1, the area of the blue triangle is the proportion of the big triangle that is shaded.) We know the base, but what is its height?
+  AnswerChoices: .5; .25; .8; I can't tell
+  CorrectAnswer: .8
+  AnswerTests: omnitest(correctVal='.8')
+  Hint: The  slope of a line is the "rise" (change in height) divided by the "run" (change in width), so the diagonal's slope is 1/2. At x=1.6, the y value of the diagonal is 1/2 * 1.6. 
+
+y=0.5*x
+
+- Class: mult_question
+  Output: In the triangle example from above, which of the following expressions represents F(x), the CDF? 
+  AnswerChoices: x*x/4; x*x/2; x*2x/2; x^2
+  CorrectAnswer: x*x/4
+  AnswerTests: omnitest(correctVal='x*x/4')
+  Hint: The term 'x' is the base, x/2 is the height.  Plug these into the formula for the area of a triangle.
+
+1. Now use the R function integrate to integrate mypdf with the parameters lower
+| equal to 0 and upper equal to 1.6. See if you get the same area (probability)
+| you got before.
+
+> integrate(mypdf, 0,1.6)
+0.64 with absolute error < 7.1e-15
+
+2. What is the 50th percentile of the CDF F(x)=(x^2)/4 from the example above?
+| F(x)=(x^2)/4 ; F(x)=.5, so solve for the x such that x^2=4*.5=2
+
+sqrt(2)
+
+3. What does this mean with respect to the kibble we're tossing at the triangle?
+
+Half of it falls to the left of 1.41
+
