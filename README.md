@@ -1,6 +1,6 @@
 ## [Data Science Specialization from Johns Hopkins Biostatistics]()
 
-`Ask the right questions, manipulate data sets, and create visualizations to communicate results:`
+`Ask the right questions, manipulate data sets, create visualizations:`
 
 [Github][Machine Learning][R Programming][Regression Analysis][Data Science][Rstudio][Data Analysis][Debugging][Data Manipulation][Regular Expression (REGEX)][ Data Cleaning][Cluster Analysis]
 
