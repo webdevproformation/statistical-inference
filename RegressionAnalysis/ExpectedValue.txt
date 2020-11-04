@@ -1,2 +1,178 @@
 Expected values
 The empirical average is a very intuitive idea; it's the middle of our data in a sense. But, what is it estimating? We can formally define the middle of a population distribution. This is the expected value. Expected values are very useful for characterizing populations and usually represent the first thing that we're interested in estimating.
+
+  |===                                                                   |   5%
+| The expected value of a random variable X:
+... E(X), is a measure of its central tendency. 
+For a discrete random variable X with PMF p(x), E(X) is defined as:
+... a sum, over all possible values x, of the quantity x*p(x). 
+E(X) represents
+| the center of mass of a collection of locations and weights, {x, p(x)}.
+
+Consider the random variable X representing a roll of a fair dice. By 'fair'
+| we mean all the sides are equally likely to appear. What is the expected
+| value of X?
+
+> 3.5
+[1] 3.5
+
+> expect_dice
+function(pmf){ mu <- 0; for (i in 1:6) mu <- mu + i*pmf[i]; mu}
+<bytecode: 0x00000206fbbcd0f0>
+<environment: 0x00000206fbfdc590>
+
+dice_high
+[1] 0.04761905 0.09523810 0.14285714 0.19047619 0.23809524 0.28571429
+
+> expect_dice(dice_high)
+[1] 4.333333
+
+  |===============                                                       |  21%
+| You can see the effect of loading the dice on the expectations of the rolls.
+| For high-loaded dice the expected value of a roll (on average) is 4.33 and
+| for low-loaded dice 2.67. We've stored these off for you in two variables,
+| edh and edl. We'll need them later.
+
+...
+
+  |================                                                      |  23%
+| One of the nice properties of the expected value operation is that it's
+| linear. This means that, if c is a constant, 
+then E(cX) = c*E(X). 
+
+Also, if X  and Y are two random variables 
+then E(X+Y)=E(X)+E(Y).
+
+It follows that
+| E(aX+bY)=aE(X)+bE(Y).
+
+.................................................................................
+| Suppose you were rolling our two loaded dice, dice_high and dice_low. You can
+| use this linearity property of expectation to compute the expected value of
+| their average. Let X_hi and X_lo represent the respective outcomes of the
+| dice roll. The expected value of the average is E((X_hi + X_lo)/2) or .5 *(
+| E(X_hi)+E(X_lo) ). Compute this now. Remember we stored the expected values
+| in edh and edl.
+
+.5*(edh+edl)
+[1] 3.5
+
+The dice were loaded in opposite ways so their average should be fair.
+
+................................................................................
+
+  |=====================                                                 |  30%
+| For a continuous random variable X, the expected value is defined analogously
+| as it was for the discrete case. Instead of summing over discrete values,
+| however, the expectation integrates over a continuous function.
+
+...
+
+  |=======================                                               |  33%
+| It follows that for continuous random variables, E(X) is the area under the
+| function t*f(t), where f(t) is the PDF (probability density function) of X.
+| This definition borrows from the definition of center of mass of a continuous
+| body.
+
+- Class: figure
+  Output: Here's a figure from the slides. It shows the constant (1) PDF on the left and the graph of t*f(t) on the right.
+  Figure: plot1.R (rectangle)
+  FigureType: new (triangle)
+
+- Class: mult_question
+  Output: Knowing that the expected value is the area under the triangle, t*f(t), what is the expected value of the random variable with this PDF?
+  AnswerChoices: 1.0; 2.0; .5; .25 
+  CorrectAnswer: .5
+  AnswerTests: omnitest(correctVal='.5')
+  Hint: The area of the triangle is base*height/2.
+  .......................................................................................
+  
+  - Class: figure
+  Output: For the purposes of illustration, here's another figure using a PDF from our previous probability lesson. It shows the triangular PDF f(t) on the left and the parabolic t*f(t) on the right. The area under the parabola between 0 and 2 represents the expected value of the random variable with this PDF.
+  Figure: plot2.R
+  FigureType: new
+
+- Class: cmd_question
+  Output: To find the expected value of this random variable you need to integrate the function t*f(t). Here f(t)=t/2, the diagonal line. (You might recall this from the last probability lesson.) The function you're integrating over is therefore t^2/2. We've defined a function myfunc for you representing this. You can use the R function 'integrate' with parameters myfunc, 0 (the lower bound), and 2 (the upper bound) to find the expected value. Do this now.
+  CorrectAnswer: integrate(myfunc,0,2)
+  AnswerTests: omnitest(correctExpr='integrate(myfunc,0,2)')
+  Hint: Type 'integrate(myfunc,0,2)' at the command prompt.
+  
+  > integrate(myfunc, 0, 2)
+1.333333 with absolute error < 1.5e-14
+  .....................................................................................
+
+
+> spop
+[1]  1  4  7 10 13
+
+> mean(spop)
+[1] 7
+
+> allsam
+      [,1] [,2]
+ [1,]    1    4
+ [2,]    1    7
+ [3,]    1   10
+ [4,]    1   13
+ [5,]    4    7
+ [6,]    4   10
+ [7,]    4   13
+ [8,]    7   10
+ [9,]    7   13
+[10,]   10   13
+
+  |=====================================                                 |  53%
+| Each of these 10 samples will have a mean, right? We can use the R function
+| apply to calculate the mean of each row of the matrix allsam. We simply call
+| apply with the arguments allsam, 1, and mean. The second argument, 1, tells
+| 'apply' to apply the third argument 'mean' to the rows of the matrix. Try
+| this now.
+
+> apply(allsam, 1, mean)
+ [1]  2.5  4.0  5.5  7.0  5.5  7.0  8.5  8.5 10.0 11.5
+ 
+  |=========================================                             |  58%
+| ... if we take the expected value of these sample means we'll see something
+| amazing. We've stored the sample means in the array smeans for you. Use the R
+| function mean on the array smeans now.
+
+> mean(smeans)
+[1] 7
+
+
+  |==========================================                            |  60%
+| Look familiar? The result is the same as the mean of the original population
+| spop. This is not because the example was specially cooked. It would work on
+| any population. The expected value or mean of the sample mean is the
+| population mean. What this means is that
+
+the sample mean is an unbiased estimator of the population mean.
+................................................................................
+
+  |============================================                          |  63%
+| Formally, an estimator e of some parameter v is unbiased if its expected
+| value equals v, i.e., E(e)=v. We can show that the expected value of a sample
+| mean equals the population mean with some simple algebra.
+
+  |==============================================                        |  65%
+| Let X_1, X_2, ... X_n be a collection of n samples from a population with
+| mean mu. The mean of these is (X_1 + X_2 + ... + X_n)/n.
+
+ E(aX)=aE(X), so E(| (X_1+..+X_n)/n ) 
+ =1/n * (E(X_1) + E(X_2) + ... + E(X_n))
+
+Each E(X_i) equals mu since X_i is drawn from the population with mean mu. 
+We expect, on average, a random X_i will equal mu.
+
+
+..................................................................................
+
+
+
+
+
+
+
+
+
