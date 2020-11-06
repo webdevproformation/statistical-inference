@@ -1,0 +1,144 @@
+﻿Homework1
+
+1. Consider influenza epidemics for two parent heterosexual families. Suppose that the probability is 15% that at least one of the parents has contracted the disease. The probability that the father has contracted influenza is 10% while that the mother contracted the disease is 9%. What is the probability that both contracted influenza expressed as a whole number percentage? Watch a video solution
+
+[A-Father B-Mother u-union n-intersection]
+
+P(AuB) = P(A) +P(B)-P(AnB)
+
+P(AuB)=.15
+P(A)=.1
+P(B)=.09
+
+|P(AuB) -P(A) -P(B)|= |- P(AnB)|
+| .15-.1-.09| = |.15-1.9| =.4
+
+2. A random variable, X, is uniform, a box from 0 to 1 of height 1. (So that its density is f(x)=1 for 0≤x≤1.) What is its median expressed to two decimal places? Watch a video solution.
+
+.50
+
+
+3. You are playing a game with a friend where you flip a coin and if it comes up heads you give her X dollars and if it comes up tails she gives you Y dollars. The odds that the coin is heads is d. What is your expected earnings? Watch a video solution.
+
+Odds = O = p /(1-p )
+d=odds of a head
+
+There is a one to one relationship between O & p
+so, if d = p /(1-p ) <=> p = d /(1+d )
+
+1-p = 1- d /(1+d ) =((1+d )/(1+d )) - (d /(1+d )) =  1/(1+d )
+
+heads = -X
+tails = Y
+W = Y*p(Y)-X*p(X)
+
+W      |  -X | Y 
+--------------------
+p(W) |  p    | 1-p 
+
+
+W =  Y*(Y)-X*p(X) = Y*(1-p )-X*p(p)
+=Y*( 1/(1+d ))-X* (d /(1+d ))
+= Y/(1+d ) -X*d/(1+d )
+
+
+4.If Xˉ and Yˉ are comprised of n iid random variables arising from distributions having means μx and μy, respectively and common variance σ2 what is the variance Xˉ−Yˉ? Watch a video solution of this problem.
+
+Var(Xˉ)=Var(Yˉ)=σ2/n.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+(I) If you subtract two variances they still add as it is squared.
+
+Var( Xv – Yv) = Var( Xv ) + Var(Yv) 
+
+(ii) They are independent so there is no need to subtract any covariance
+
+σ^2/n + σ^2/n 
+
+=2σ^2/n 
+
+
+
+5.A random variable takes the value -4 with probability .2 and 1 with probability .8. What is the variance of this random variable? Watch a video solution.
+Expected Value = E
+Variance = E[X^2] -E[X]^2
+
+
+__X__|__P___|__X^2
+__-4_|__.2_ _|_ 16__
+__1_|___.8_ _|_ 1___
+
+N is all possible values of 
+E[X^2] = SUM(Xn^2*Pn) = 16*.2 +1*.8 =3.2+.8=4.0
+E[X]^2= SUM(Xn*Pn) =-4*.2 +1*.8 = -.8 +.8 =0
+
+Variance = E[X^2] -E[X]^2 = 4+0 =4
+
+
+
+6. Let X be a random variable having standard deviation σ. What can be said about X/σ? Watch a video solution of this problem.
+
+Var(X) = σ^2
+STD(X) = σ
+
+E[X/σ] =E[X]/σ
+
+Var(X/σ]) =( 1/σ^2)*Var(X) = σ^2/ σ^2 =1
+
+
+7. If a continuous density that never touches the horizontal axis is symmetric about zero, can we say that its associated median is zero? Watch a video solution.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+This is a surprisingly hard problem. The easy explanation is that 50% of the probability is below 0 and 50% is above so yes. However, it is predicated on the density not being a flat line at 0 around 0. That's why the caveat that it never touches the horizontal axis is important.
+
+
+8. Consider the following pmf given in R
+p <- c(.1, .2, .3, .4)
+x <- 2 : 5
+What is the variance expressed to 1 decimal place? Watch a solution to this problem.
+> x=2:5
+> p = (1:4)/10
+[1]  0.1 0.2 0.3 0.4
+>sum(p)
+[1] 1
+>
+>rbind(x,p)
+
+   [,1]  [,2]  [,3]  [,4]
+___________________________
+x   2.0   3.0    4.0   5.0
+p    0.1   0.2    0.3   0.4
+
+>
+> sum(x^2*p) -sum(x*p)^2
+[1] 1
+
+
+
