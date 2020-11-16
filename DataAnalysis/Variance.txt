@@ -1,0 +1,92 @@
+####################################################################################               ##################Variability################################
+####################################################################################
+An important characterization of a population is how spread out it is. One of the key measures of spread is variability. We measure population variability with the sample variance, or more often we consider the square root of both, called the standard deviation. The reason for taking the standard deviation is because that measure has the same units as the population. So if our population is a length measurement in meters, the standard deviation is in meters (whereas the variance is in meters squared).
+
+Variability has many important uses in statistics. First, the population variance is itself an intrinsically interesting quantity that we want to estimate. Secondly, variability in our estimates is what makes them not imprecise. An important aspect of statistics is quantifying the variability in our estimates.
+
+##################################################################################
+
+
+> setwd("C:/Users/angul/OneDrive/R/StatisticalInference")
+
+## Standard Normals###############################################################
+> nosim <- 1000
+> n <- 10
+> sd(apply(matrix(rnorm(nosim * n), nosim), 1, mean))
+[1] 0.3221162
+
+> 1/sqrt(n)
+[1] 0.3162278
+
+
+##Standard Uniforms###############################################################
+
+> nosim <- 1000
+> n <- 10
+> sd(apply(matrix(runif(nosim * n), nosim), 1, mean))
+[1] 0.08796133
+> 1 / sqrt(12 * n)
+[1] 0.09128709
+
+##Poissons(4)#######################################################################
+
+> nosim <- 1000
+> n <- 10
+> sd(apply(matrix(rpois(nosim * n, 4), nosim), 1, mean))
+[1] 0.6219968
+
+> 2 / sqrt(n)
+[1] 0.6324555
+
+##Coin Flips######################################################################
+> nosim <- 1000
+> n <- 10
+> sd(apply(matrix(sample(0 : 1, nosim * n, replace = TRUE),
++                 nosim), 1, mean))
+[1] 0.1547362
+
+[1] 0.1547362
+> 1 / (2 * sqrt(n))
+[1] 0.1581139
+
+##############################################################################
+##############################################################################
+> x <- father.son$sheight
+> n<-length(x)
+
+> head(father.son)
+   fheight  sheight
+1 65.04851 59.77827
+2 63.25094 63.21404
+3 64.95532 63.34242
+4 65.75250 62.79238
+5 61.13723 64.28113
+6 63.02254 64.24221
+
+
+
+> # Rounding up the values to the 2 digit
+> father.son <- round(father.son, digit = 2)
+> library(gridExtra)
+> 
+> # Histogram of height of father
+> 
+> fplot <- ggplot(father.son, aes(x = fheight))+ geom_histogram(col = "grey", fill = "darkslategray") + geom_vline(xintercept = mean(father.son$fheight), col = "dark green") + xlab("Height of Father") + ylab("Number of Observation") + ggtitle("Height of Fathers")
+> 
+> 
+> # Histogram of height of Son 
+> splot <- ggplot(father.son, aes(x = sheight)) + geom_histogram(fill = "dark green", col = "grey") + geom_vline(xintercept = mean(father.son$sheight), col = "darkslategray") + xlab("Height of Sons") + ylab("Number of Observation") + ggtitle("Height of Sons")
+> 
+> 
+> # Scatterplot of the dataset 
+> scatplot <- Fa.son <- ggplot(father.son,  aes(x = fheight, y = sheight)) + geom_point(col = "darkslategray") + xlab("Height of Father") + ylab("Height of Sons") + ggtitle("Height of Fathers and Sons")
+> 
+> grid.arrange(fplot, splot, ncol = 2, nrow = 1)
+`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+
+> round(c(var(x), var(x) / n, sd(x), sd(x) / sqrt(n)),
++       2)
+[1] 7.92 0.01 2.81 0.09
+
+watch: https://www.coursera.org/learn/statistical-inference/lecture/XPmRV/05-04-variance-data-example
