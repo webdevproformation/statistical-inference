@@ -1,0 +1,65 @@
+##########################################################################
+#################Distributions############################################
+Some probability distributions are so important that we need to internalize their characteristics. In these lectures we cover the most important probability distributions.
+##########################################################################
+##Binomial Distributions:################################################
+Suppose you have a friend who has eight children, seven of which are girls and none are twins. If each gender has an independent 50% probability for each birth, what's the probability of getting seven or more girls out of eight births?
+
+> choose(8, 7) * 0.5^8 + choose(8, 8) * 0.5^8
+[1] 0.03515625
+
+> pbinom(6, size = 8, prob = 0.5, lower.tail = FALSE)
+[1] 0.03515625
+
+##Normal Distributions:###################################################
+> pbinom(6, size = 8, prob = 0.5, lower.tail = FALSE)
+[1] 0.03515625
+> pnorm(1160, mean = 1020, sd = 50, lower.tail = FALSE)
+[1] 0.00255513
+> pnorm(2.8, lower.tail = FALSE)
+[1] 0.00255513
+> 
+
+Assume the number of daily ad clicks for companies is approximately normally distributed with a mean of 1,020 clicks per day, and a standard deviation of 50 clicks per day. Well let's assume that, a get, days are sort of a random sample of days, in that if we're talking about a specific day, it's a draw from this general distribution.
+
+What's the probability of getting more than 1,160 clicks on a given day?
+x= 1160
+mu=1020
+sigma=50
+
+x expressed in how many standard deviations from the mean is:
+(1160-1020)/50
+> (1160-1020)/50
+[1] 2.8
+
+
+> qnorm(0.75, mean = 1020, sd = 50)
+[1] 1053.724
+> pnorm(2.8, lower.tail = FALSE)
+[1] 0.00255513
+
+
+Assume that the number of daily ad clicks for this company is approximately normally distributed with a mean of 1020 and a standard deviation of 50. 
+
+What number of daily ad clicks would represent the one where 75% have fewer clicks? 
+mu=1020
+sigma=50
+find x for sd<.75
+> qnorm(0.75, mean = 1020, sd = 50)
+[1] 1053.724
+
+##Poison Distributions##############################################
+
+So, imagine if the number of people that show up to a bus stop is Poisson with a mean of 2.5 people per hour. We watch the bus stop for four hours. What's the probability that three or four, three or fewer people show up the whole time? 
+> ppois(3, lambda = 2.5 * 4)
+[1] 0.01033605
+
+ Let's go through a Poisson approximation of the binomial.
+Play video starting at :5:5 and follow transcript5:05
+So imagine if we were to flip a coin with success probability 0.01 500 times. What's the probability of two or fewer successes?
+> pbinom(2, size = 500, prob = 0.01)
+[1] 0.1233858
+> ppois(2, lambda = 500 * 0.01)
+[1] 0.124652
+
+
