@@ -1,0 +1,249 @@
+###########################################################################################
+################Asymptotics#############################################################
+Asymptotics are an important topics in statistics. Asymptotics refers to the behavior of estimators as the sample size goes to infinity. Our very notion of probability depends on the idea of asymptotics. For example, many people define probability as the proportion of times an event would occur in infinite repetitions. That is, the probability of a head on a coin is 50% because we believe that if we were to flip it infinitely many times, we would get exactly 50% heads.
+
+We can use asymptotics to help is figure out things about distributions without knowing much about them to begin with. A profound idea along these lines is the Central Limit Theorem. It states that the distribution of averages is often normal, even if the distribution that the data is being sampled from is very non-normal. This helps us create robust strategies for creating statistical inferences when we're not willing to assume much about the generating mechanism of our data.
+##for a standard normal:#########################################################
+> n <- 10000
+> means <- cumsum(rnorm(n))/(1:n)
+> library(ggplot2)
+> g <- ggplot(data.frame(x = 1:n, y = means), aes(x = x, y = y))
+> g <- g + geom_hline(yintercept = 0) + geom_line(size = 2)
+> g <- g + labs(x = "Number of obs", y = "Cumulative mean")
+> g
+
+mu tends towards 0 after 50000 observations
+
+##For a coin flip: #############################################################
+> means <- cumsum(sample(0:1, n, replace = TRUE))/(1:n)
+> g <- ggplot(data.frame(x = 1:n, y = means), aes(x = x, y = y))
+> g <- g + geom_hline(yintercept = 0.5) + geom_line(size = 2)
+> g <- g + labs(x = "Number of obs", y = "Cumulative mean")
+> g
+
+mu tends towards .5 after 50000 observations
+
+
+#################################################################################
+ the Central Limit Theorem states that the distribution of averages of iid 
+ random variables becomes that of a standard normal as the sample size increases.
+ ################################################################################
+ ############################################################
+##CLT Normal Distribution######################################
+############################################################
+ ## standard die Example/ 
+
+What's interesting about this conceptual experiment and the simulation that we're going to conduct is that imagine if you had to simulate random normals prior to the advent of computers. For example, if you were a statistician working at that time, and you wanted to evaluate the behavior of something like the ki squared statistic, which is a function of normal random variables.
+
+library(mosaic)
+#Coin Flips = 20, Trials = 50
+coins = do(50) * rflip(20)
+histogram(~heads, data = coins,
+          width = 1,
+          fit = "normal")
+          
+#Coin Flips = 20, Trials = 200          
+          coins = do(200) * rflip(20)
+histogram(~heads, data = coins,
+          width = 1,
+          fit = "normal")
+          
+#Coin Flips = 20, Trials = 1000          
+          coins = do(1000) * rflip(20)
+histogram(~heads, data = coins,
+          width = 1,
+          fit = "normal")
+          
+##Confidance Interval Height of Sons:################################## 
+
+1/sqrt(100)=.1
+phat = 1/sqrt(n)=.1
+##the 95% interval for mu:##################################
+p(mu+2*sigma)/sqrt(n)<X) + p(Xbar < mu+2*sigma)/sqrt(n)
+=.5
+
+> library(UsingR)
+> data(father.son)
+> x <- father.son$sheight
+> (mean(x) + c(-1, 1) * qnorm(0.975) * sd(x)/sqrt(length(x)))/12 
+[1] 5.709670 5.737674 #in feet
+
+### In a coin flip:#######################################
+For 95% intervals
+phat +- 1/sqrt(n)
+#######################################################
+as
+max(p(1-p))=P=.5
+
+sqrt(p*(1-p)/n) <= sqrt(.5(1-.5)/n) =1/2*sqrt(n)
+so 2*sqrt(p*(1-p)/n) <= 2*(1/2*sqrt(n))=1/sqrt(n)
+
+so 
+For 95% intervals
+phat +- 1/sqrt(n)is a good confidance interval of p
+
+
+Imagine you were running for political office and your campaign advisor told you that in a random sample of 100 likely voters, 56 intended to vote for you.
+Can you relax? Do you have this race in the bag? Is 0.56 out of 100 sampled enough evidence to conclude that you'll likely get more than 50% of the vote?
+
+phat = .56
+n=100
+
+1/sqrt(100)=.1 
+> round(1/sqrt(10^(1:6)), 3)
+[1] 0.316 0.100 0.032 0.010 0.003 0.001
+
+> 0.56 + c(-1, 1) * qnorm(0.975) * sqrt(0.56 * 0.44/100)
+[1] 0.4627099 0.6572901
+
+> binom.test(56, 100)$conf.int
+[1] 0.4571875 0.6591640
+attr(,"conf.level")
+[1] 0.95
+attr(,"method")
+[1] "Score"
+
+
+
+watch > https://www.coursera.org/learn/statistical-inference/lecture/RxU7M/07-03-asymptotics-and-confidence-intervals
+
+
+##Coverage Interval###########################################
+> n <- 20
+> pvals <- seq(0.1, 0.9, by = 0.05)
+> nosim <- 1000
+> coverage <- sapply(pvals, function(p) {
++     phats <- rbinom(nosim, prob = p, size = n)/n
++     ll <- phats - qnorm(0.975) * sqrt(phats * (1 - phats)/n)
++     ul <- phats + qnorm(0.975) * sqrt(phats * (1 - phats)/n)
++     mean(ll < p & ul > p)
++ })
+
+> coverage
+ [1] 0.882 0.785 0.920 0.866 0.949 0.940 0.937 0.925 0.954 0.923 0.932
+[12] 0.934 0.938 0.896 0.925 0.820 0.869
+
+## better couverage with n=100 than n=10##############################
+> n <- 100
+> pvals <- seq(0.1, 0.9, by = 0.05)
+> nosim <- 1000
+> coverage2 <- sapply(pvals, function(p) {
++     phats <- rbinom(nosim, prob = p, size = n)/n
++     ll <- phats - qnorm(0.975) * sqrt(phats * (1 - phats)/n)
++     ul <- phats + qnorm(0.975) * sqrt(phats * (1 - phats)/n)
++     mean(ll < p & ul > p)
++ })
+
+
+> coverage
+ [1] 0.882 0.785 0.920 0.866 0.949 0.940 0.937 0.925 0.954 0.923 0.932
+[12] 0.934 0.938 0.896 0.925 0.820 0.869
+
+## Quick Fix to smalls n, is to add two sucesses and two failures #########
+> n <- 20
+> pvals <- seq(0.1, 0.9, by = 0.05)
+> nosim <- 1000
+> coverage <- sapply(pvals, function(p) {
++     phats <- (rbinom(nosim, prob = p, size = n) + 2)/(n + 4)
++     ll <- phats - qnorm(0.975) * sqrt(phats * (1 - phats)/n)
++     ul <- phats + qnorm(0.975) * sqrt(phats * (1 - phats)/n)
++     mean(ll < p & ul > p)
++ })
+> coverage
+ [1] 0.985 0.984 0.964 0.982 0.971 0.962 0.949 0.951 0.956 0.963 0.969
+[12] 0.971 0.979 0.989 0.966 0.982 0.986
+
+##all p > .95
+
+
+##############################################################
+############################################################
+A candidate is running for election. Her supporters conduct a poll, 
+which they hope incorporate the same biases as will be found in the
+sample of voters who actually vote on election day, to determine if 
+she is likely to win. Out of 200 voters contacted, 105 indicate that 
+they will vote for her, and the other 95 indicate that they will 
+vote for her opponent.
+
+a) Find a 95% confidence interval for the proportion of the population 
+who intend to vote for her.
+b) What is the probability that she will win, based on this sample?
+c) How many voters should be included in the sample so that the margin 
+of error is within 3%?
+ 
+## a) For a 95% confidence interval we use the formula
+
+
+First we need to establish the sample proportion
+
+
+The sample size is
+
+n = 200
+and the critical value of z for a 95% confidence interval is
+
+z* = 1.960
+This gives us
+
+
+
+This gives us an upper confidence limit of
+
+.525 + .069 = .594 or 59.4%
+and a lower confidence limit of
+
+.525 - .069 = .456 or 45.6%
+b) At this point her supporters wonder what her chances of winning are. 45.6% is below 50%, so she might lose. To find her chances of losing, consider the bell shaped curve
+
+top
+
+
+Her probability of winning is the area to the right of 50%. We need to turn the 50% into a z score
+
+
+= -.708
+We look up a z-score of -.71 in Table A and get an area of .2389. This is the probability that she will lose. the probability that she will win is
+
+.7611
+c) The candidate's supporters would like to be more sure that she will win. They decide to increase the sample size until the 95% confidence interval is only plus or minus 3%. They want to know how large of a sample they will need to get that kind of accuracy. We use the formula for the margin of error.
+
+top
+
+
+To solve for n, first square both sides to get rid of the radical.
+
+
+Multiply both sides by n and divide both sides by m2.
+
+
+For a 95% confidence interval z* = 1.96. We put in our other numbers
+
+
+= 1064.4433
+
+so they would have to survey 1065 people in order to get a 95% confidence interval that would only stretch up and down 3%.
+
+top
+
+############################################################
+##CLT Poisson Distribution######################################
+############################################################
+
+ This is based on the central limit theorem though it's maybe a little less clear how the central limit theorem is applying in this case. 
+So let's talk about a nuclear pump that failed 5 times out of 94.32 days, given 95% confidence interval for the failure rate per day.
+
+So I'm going to assume that my number of failures is Poisson
+with failure rate lambda and t being the number of days.
+
+> plot(pvals,coverage )
+> x <- 5
+> t <- 94.32
+> lambda <- x/t
+> round(lambda + c(-1, 1) * qnorm(0.975) * sqrt(lambda/t), 3)
+[1] 0.007 0.099
+> poisson.test(x, T = 94.32)$conf
+[1] 0.01721254 0.12371005
+attr(,"conf.level")
+[1] 0.95
+
+
