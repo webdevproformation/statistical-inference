@@ -1,0 +1,135 @@
+########################################################################################
+What is the variance of the distribution of the average an IID draw of n observations from a population with mean mu ?? and variance sigma^2??: 
+* For large enough n, the distribution of Sn is close to the normal distribution with mean µ and variance ??2n
+
+Correct
+\mbox{Var}(\bar X) = \sigma^2 / n
+####################################################################################
+
+Suppose that diastolic blood pressures (DBPs) for men aged 35-44 are normally distributed with a mean of 80 (mm Hg) and a standard deviation of 10. About what is the probability that a random 35-44 year old has a DBP less than 70?
+*# Function pnorm represents probability that X is lower than Xi: 
+> DBP_M <- 80
+> DBP_Sd <- 10
+> DBP_Xi <- 70
+> pnorm(DBP_Xi,DBP_M,DBP_Sd,lower.tail = TRUE)
+[1] 0.1586553
+
+Correct
+pnorm(70, mean = 80, sd = 10)
+######################################################################################
+
+Brain volume for adult women is normally distributed with a mean of about 1,100 cc for women with a standard deviation of 75 cc. What brain volume represents the 95th percentile?
+*# qnorm function represents the value from which is 95% expected that all values are lower. 
+> BV_M <- 1100
+> BV_Sd <- 75
+> BV_Prob <- 0.95
+> qnorm(BV_Prob,BV_M,BV_Sd)
+[1] 1223.364
+
+Correct
+qnorm(0.95, mean = 1100, sd = 75)
+########################################################################################
+
+Refer to the previous question. Brain volume for adult women is about 1,100 cc for women with a standard deviation of 75 cc. Consider the sample mean of 100 random adult women from this population. What is the 95th percentile of the distribution of that sample mean?
+*> BV_N <- 100
+> BV_SE <- BV_Sd/sqrt(BV_N)
+> qnorm(BV_Prob,BV_M,BV_SE)
+[1] 1112.336
+
+Correct
+qnorm(0.95, mean = 1100, sd = 75/sqrt(100))
+########################################################################################
+
+You flip a fair coin 5 times, about what's the probability of getting 4 or 5 heads?
+* #use use a binomial coefficient and add the seperate chances or pbinorn()
+> p <- 0.5
+> n <- 5
+> quantile <- 3 # 4 or 5 out of 5, with lower
+> probPercentage1 <- round(pbinom(quantile, size=n, prob=p, lower.tail = FALSE) * 100)
+> probPercentage1
+[1] 19
+> combinedProb <- p ^ n
+> choose4Prob <- choose(n, 4) * combinedProb
+> choose5Prob <- choose(n, 5) * combinedProb
+> 
+> probPercentage2 <- round((choose4Prob + choose5Prob) * 100)
+> probPercentage2
+[1] 19
+
+Correct
+pbinom(3, size = 5, prob = 0.5, lower.tail = FALSE)
+Correct
+{5 \choose 4} 2^{-5} + {5 \choose 5} 2^{-5} \approx 19\%( 
+4
+5
+	
+ )2 
+???5
+ +( 
+5
+5
+	
+ )2 
+???5
+ ???19%
+########################################################################################
+
+The respiratory disturbance index (RDI), a measure of sleep disturbance, for a specific population has a mean of 15 (sleep events per hour) and a standard deviation of 10. They are not normally distributed. Give your best estimate of the probability that a sample mean RDI of 100 people is between 14 and 16 events per hour?
+*#The Central Limit Theorem (CLT) states that for a large enough sample size \(n\), the distribution of the sample mean \(\bar x\) will approach a normal distribution.
+> RDI_MU <- 15
+> RDI_sigma <- 10
+> n <- 100
+> SE <- RDI_sigma/sqrt(n)
+> 
+> left <- 14
+> right <- 16
+> 
+> percentageLeft <- pnorm(left, mean = RDI_MU, sd = SE) * 100
+> percentageRight <- pnorm(right, mean = RDI_MU, sd = SE) * 100
+> 
+> probPercentage <- round(percentageRight - percentageLeft)
+> probPercentage
+[1] 68
+
+Correct
+pnorm(16, mean = 15, sd = 1) - pnorm(14, mean = 15, sd = 1)
+Correct
+The standard error of the mean is 10 / \sqrt{100} = 110/ 
+100
+	
+ =1. Thus between 14 and 16 is with one standard deviation of the mean of the distribution of the sample mean. Thus it should be about 68%.
+########################################################################################
+
+Consider a standard uniform density. The mean for this density is .5 and the variance is 1 / 12. You sample 1,000 observations from this distribution and take the sample mean, what value would you expect it to be near?
+
+> M <- 0.5
+> Sd <- 1/12
+> N <- 1000
+> SE <- Sd/M/sqrt(N) 
+> 
+> Xi <- 0.5
+> qnorm(Xi, mean = M, sd = SE)
+[1] 0.5
+
+
+
+Correct
+Via the LLN it should be near .5.
+
+########################################################################################
+
+The number of people showing up at a bus stop is assumed to be
+
+Poisson with a mean of 55 people per hour. You watch the bus
+
+stop for 3 hours. About what's the probability of viewing 10 or fewer people?
+> Bus_Mean <- 5
+> Bus_Time <- 3
+> Bus_Lambda <- Bus_Time * Bus_Mean
+> Bus_Xi <- 10
+> round(ppois(Bus_Xi, Bus_Lambda),2)
+[1] 0.12
+
+Correct
+ppois(10, lambda = 15)
+########################################################################################
