@@ -1,0 +1,172 @@
+---
+title: "ConfidanceIntervals_T"
+author: "Linda Angulo Lopez"
+date: "07/12/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+`Confidence intervals are a convenient way to communicate uncertainty in estimates. Paired observations are usually analyzed using the t interval.`
+
+## About the t distribution.
+
+The t interval technically assumes that the data are iid normal, though it is robust to this assumption.
+It works well whenever the distribution of the data is roughly symmetric and mound shaped.
+Paired observations are often analyzed using the t interval by taking differences.
+
+Compare the t and z distributions:
+![ t and z distributions](https://github.com/lindangulopez/statistical-inference/blob/master/DataAnalysis/1607359973719.png?raw=true)
+
+For large degrees of freedom, t quantiles become the same as standard normal quantiles; therefore this interval converges to the same interval as the CLT yielded.
+
+```{r TvsGDistribution, echo=FALSE}
+# Uncomment & Run manipulate in RStudio
+#library(manipulate)
+
+k <- 1000
+xvals <- seq(-5, 5, length = k)
+myplot <- function(df){  d <- data.frame(y = c(dnorm(xvals), dt(xvals, df)),
+                                          x = xvals,
+                                          dist = factor(rep(c("Normal", "T"), c(k,k))))
+ g <- ggplot(d, aes(x = x, y = y))
+ g <- g + geom_line(size = 2, aes(color = dist))
+ g
+ }
+#manipulate(myplot(mu), mu = slider(1, 20, step = 1)) 
+
+```
+
+
+For skewed distributions, the spirit of the t interval assumptions are violated.
+Also, for skewed distributions, it doesn’t make a lot of sense to center the interval at the mean.
+In this case, consider taking logs or using a different summary like the median.
+For highly discrete data, like binary, other intervals are available.
+
+- Example of the t interval, Sleep Data:
+
+```{r SleepDataExample}
+
+data(sleep)
+x1 <- sleep$extra[sleep$group == 1]
+x2 <- sleep$extra[sleep$group == 2]
+n1 <- length(x1)
+n2 <- length(x2)
+sp <- sqrt( ((n1 - 1) * sd(x1)^2 + (n2-1) * sd(x2)^2) / (n1 + n2-2))
+md <- mean(x1) - mean(x2)
+semd <- sp * sqrt(1 / n1 + 1/n2)
+md + c(-1, 1) * qt(.975, n1 + n2 - 2) * semd
+t.test(x1, x2, paired = FALSE, var.equal = TRUE)$conf
+t.test(x1, x2, paired = TRUE)$conf
+```
+
+```{r SleepDataPlot, echo=FALSE}
+
+plot(c(0.5, 2.5), range(x1, x2), type = "n", frame = FALSE, xlab = "group", ylab = "Extra", axes = FALSE)
+axis(2)
+axis(1, at = 1 : 2, labels = c("Group 1", "Group 2"))
+for (i in 1 : n1) lines(c(1, 2), c(x1[i], x2[i]), lwd = 2, col = "red")
+for (i in 1 : n1) points(c(1, 2), c(x1[i], x2[i]), lwd = 2, col = "black", bg = "salmon", pch = 21, cex = 3)
+```
+Acknowledging the pairing explains variation that would otherwise be absorbed into the variation for the group means. As a result, treating the groups as independent results in wider intervals. Even if it didn’t result in a shorter interval, the paired interval would be correct as the groups are not statistically independent!
+
+
+## Paired Groups: 
+
+
+```{r Grouped}
+
+g1 <- sleep$extra[1 : 10]; g2 <- sleep$extra[11 : 20]
+difference <- g2 - g1
+mn <- mean(difference); s <- sd(difference); n <- 10
+
+mn + c(-1, 1) * qt(.975, n-1) * s / sqrt(n)
+t.test(difference)
+t.test(g2, g1, paired = TRUE)
+t.test(extra ~ I(relevel(group, 2)), paired = TRUE, data = sleep)
+
+```
+
+```{r Independant}
+
+t.test(extra ~ I(relevel(group, 2)), paired = FALSE, data = sleep)
+```
+
+
+## Independent groups:
+A the pooled variance estimate weights the mean variance of each group if you do not have equal numbers of observations in both groups, as long as there is a constant variance across each group.
+
+Based on Rosner, Fundamentals of Biostatistics
+
+- Comparing SBP for 8 oral contraceptive users versus 21 controls
+- $\bar X_{OC} = 132.86$ mmHg with $s_{OC} = 15.34$ mmHg
+- $\bar X_{C} = 127.44$ mmHg with $s_{C} = 18.23$ mmHg
+- Pooled variance estimate
+
+```{r RosnerSBP}
+sp <- sqrt((7 * 15.34^2 + 20 * 18.23^2) / (8 + 21 - 2))
+132.86 - 127.44 + c(-1, 1) * qt(.975, 27) * sp * (1 / 8 + 1 / 21)^.5
+
+```
+
+```{r DplyrChichWeight, echo=FALSE}
+
+library(datasets); data(ChickWeight); library(reshape2)
+##define weight gain or loss
+wideCW <- dcast(ChickWeight, Diet + Chick ~ Time, value.var = "weight")
+names(wideCW)[-(1 : 2)] <- paste("time", names(wideCW)[-(1 : 2)], sep = "")
+library(dplyr)
+wideCW <- mutate(wideCW,
+gain = time21 - time0
+)
+
+```
+
+```{r ChickWeightPlot, echo=FALSE}
+
+data(ChickWeight)
+library(plotly)
+
+g <- ggplot(ChickWeight, aes(x = Time, y = weight, colour = Diet, group = Chick))
+g <- g + geom_line()
+g <- g + facet_grid(. ~ Diet)
+ggplotly(g)
+
+```
+
+
+A plot of the raw data suggest that Diet 1 is less nutritious. Taking the difference in weight as weight gain we see: 
+
+```{r ViolinPlot}
+# Library
+library(ggplot2)
+
+# Most basic violin chart
+p <- ggplot(wideCW, aes(x=gain, y=Diet, fill=Diet)) + # fill=name allow to automatically dedicate a color for each group
+  geom_violin()
+
+p
+```
+
+
+It does not seem that there is equal variance between Diet 1 & Diet 4, we can use the t interval to confirm this.
+
+```{r Diet1Diet4_T}
+wideCW14 <- subset(wideCW, Diet %in% c(1, 4))
+rbind(
+t.test(gain ~ Diet, paired = FALSE, var.equal = TRUE, data = wideCW14)$conf,
+t.test(gain ~ Diet, paired = FALSE, var.equal = FALSE, data = wideCW14)$conf
+)
+
+```
+
+The first [1,] case assumes the the intervals are equal the second [2,] that they are not. In both cases the intervals are entirely below zero, suggesting less weight gain on Diet 1 than on Diet 4 (at 95% confidence). The specific interval does change depending on whether or not you have the variances are equal or the variances are not equal, as a rule of thumb when in doubt set var.equal = FALSE in a t test.
+
+
+For binomial data, there are many ways to compare two groups
+- Relative risk, risk difference, odds ratio.
+- Chi-squared tests, normal approximations, exact tests.
+
+For count data, there's also Chi-squared tests and exact tests.

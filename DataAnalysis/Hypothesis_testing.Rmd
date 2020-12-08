@@ -11,6 +11,8 @@ knitr::opts_chunk$set(echo = TRUE)
 
 [Sourced from Brian Caffo](https://github.com/bcaffo/courses/raw/master/06_StatisticalInference/09_HT/index.pdf)
 
+![https://xkcd.com/1132/](https://github.com/lindangulopez/statistical-inference/blob/master/DataAnalysis/1607430888081.png?raw=true)
+
 # Hypothesis testing
 
 Statistical hypothesis testing is the formal inferential framework around choosing between hypotheses. The null hypothesis is assumed true, H0, and statistical evidence is required to reject it in favor of a research or alternative hypothesis, Ha.
@@ -146,33 +148,34 @@ $$
 * The same works in reverse; if a $(1-\alpha)100\%$ interval
   contains $\mu_0$, then we *fail  to* reject $H_0$
 
----
 ## Exact binomial test
-- Recall this problem, *Suppose a friend has $8$ children, $7$ of which are girls and none are twins*
+*Suppose a friend has $8$ children, $7$ of which are girls and none are twins*
 - Perform the relevant hypothesis test. $H_0 : p = 0.5$ $H_a : p > 0.5$
   - What is the relevant rejection region so that the probability of rejecting is (less than) 5%?
   
-Rejection region | Type I error rate |
----|---|
-[0 : 8] | `r pbinom(-1, size = 8, p = .5, lower.tail = FALSE)`
-[1 : 8] | `r pbinom( 0, size = 8, p = .5, lower.tail = FALSE)`
-[2 : 8] | `r pbinom( 1, size = 8, p = .5, lower.tail = FALSE)`
-[3 : 8] | `r pbinom( 2, size = 8, p = .5, lower.tail = FALSE)`
-[4 : 8] | `r pbinom( 3, size = 8, p = .5, lower.tail = FALSE)`
-[5 : 8] | `r pbinom( 4, size = 8, p = .5, lower.tail = FALSE)`
-[6 : 8] | `r pbinom( 5, size = 8, p = .5, lower.tail = FALSE)`
-[7 : 8] | `r pbinom( 6, size = 8, p = .5, lower.tail = FALSE)`
-[8 : 8] | `r pbinom( 7, size = 8, p = .5, lower.tail = FALSE)`
+```{r }
+
+print(pbinom(-1, size = 8, p = .5, lower.tail = FALSE))
+print(pbinom( 0, size = 8, p = .5, lower.tail = FALSE))
+print(pbinom( 1, size = 8, p = .5, lower.tail = FALSE))
+print(pbinom( 2, size = 8, p = .5, lower.tail = FALSE))
+print(pbinom( 3, size = 8, p = .5, lower.tail = FALSE))
+print(pbinom( 4, size = 8, p = .5, lower.tail = FALSE))
+print(pbinom( 5, size = 8, p = .5, lower.tail = FALSE))
+print(pbinom( 6, size = 8, p = .5, lower.tail = FALSE))
+print(pbinom( 7, size = 8, p = .5, lower.tail = FALSE))
+
+```
 
 ---
-## Notes
-* It's impossible to get an exact 5% level test for this case due to the discreteness of the binomial. 
+### It's impossible to get an exact 5% level test for this case due to the discreteness of the binomial: 
   * The closest is the rejection region [7 : 8]
   * Any alpha level lower than `r 1 / 2 ^8` is not attainable.
 * For larger sample sizes, we could do a normal approximation, but you already knew this.
 * Two sided test isn't obvious. 
   * Given a way to do two sided tests, we could take the set of values of $p_0$ for which we fail to reject to get an exact binomial confidence interval (called the Clopper/Pearson interval, BTW)
-* For these problems, people always create a P-value (next lecture) rather than computing the rejection region.
+
+### For these problems, people always create a P-value rather than computing the rejection region.
 
 
 
