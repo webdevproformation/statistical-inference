@@ -1,0 +1,66 @@
+Confidence intervals
+When we estimate something using statistics, usually that estimate comes with uncertainty. Take, for example, election polling. When we get a polled percentage of voters that favor a candidate, we were only able to sample a small subset of voters. Therefore, our estimate has uncertainty associated with it.
+
+Confidence intervals are a convenient way to communicate that uncertainty in estimates.
+
+/////////////////////////////////////////////////////////////////////////////////////
+In probability and statistics, Student's t-distribution (or simply the t-distribution) is any member of a family of continuous probability distributions that arise when estimating the mean of a normally-distributed population in situations where the sample size is small and the population's standard deviation is unknown. It was developed by English statistician William Sealy Gosset under the pseudonym "Student".
+
+The t-distribution plays a role in a number of widely used statistical analyses, including Student's t-test for assessing the statistical significance of the difference between two sample means, the construction of confidence intervals for the difference between two population means, and in linear regression analysis. The Student's t-distribution also arises in the Bayesian analysis of data from a normal family.
+
+If we take a sample of {\displaystyle n}n observations from a normal distribution, then the t-distribution with {\displaystyle \nu =n-1}\nu=n-1 degrees of freedom can be defined as the distribution of the location of the sample mean relative to the true mean, divided by the sample standard deviation, after multiplying by the standardizing term {\displaystyle {\sqrt {n}}}{\sqrt {n}}. In this way, the t-distribution can be used to construct a confidence interval for the true mean.
+
+The t-distribution is symmetric and bell-shaped, like the normal distribution, but has heavier tails, meaning that it is more prone to producing values that fall far from its mean. This makes it useful for understanding the statistical behavior of certain types of ratios of random quantities, in which variation in the denominator is amplified and may produce outlying values when the denominator of the ratio falls close to zero. The Student's t-distribution is a special case of the generalised hyperbolic distribution.
+///////////////////////////////////////////////////////////////////////////////////////
+
+Code for manipulate
+You can use rStudio's manipulate function to to compare the t and Z distributions.
+
+Code for investigating t and Z densities.
+k <- 1000
+xvals <- seq(-5, 5, length = k)
+myplot <- function(df){  d <- data.frame(y = c(dnorm(xvals), dt(xvals, df)),
+                  x = xvals,
+                  dist = factor(rep(c("Normal", "T"), c(k,k))))
+  g <- ggplot(d, aes(x = x, y = y))
+  g <- g + geom_line(size = 2, aes(color = dist))
+  g
+}
+manipulate(myplot(mu), mu = slider(1, 20, step = 1)) 
+//////////////////////////////////////////////////////////////////////////////////////
+Example of the t interval, Gosset's sleep data
+head(sleep)data(sleep)
+> head(sleep)
+  extra group ID
+1   0.7     1  1
+2  -1.6     1  2
+3  -0.2     1  3
+4  -1.2     1  4
+5  -0.1     1  5
+6   3.4     1  6
+
+data(sleep)
+x1 <- sleep$extra[sleep$group == 1]
+x2 <- sleep$extra[sleep$group == 2]
+n1 <- length(x1)
+n2 <- length(x2)
+sp <- sqrt( ((n1 - 1) * sd(x1)^2 + (n2-1) * sd(x2)^2) / (n1 + n2-2))
+md <- mean(x1) - mean(x2)
+semd <- sp * sqrt(1 / n1 + 1/n2)
+md + c(-1, 1) * qt(.975, n1 + n2 - 2) * semd
+t.test(x1, x2, paired = FALSE, var.equal = TRUE)$conf
+t.test(x1, x2, paired = TRUE)$conf
+
+[1] -3.363874  0.203874
+[1] -3.363874  0.203874
+attr(,"conf.level")
+[1] 0.95
+[1] -2.4598858 -0.7001142
+attr(,"conf.level")
+[1] 0.95
+
+plot(c(0.5, 2.5), range(x1, x2), type = "n", frame = FALSE, xlab = "group", ylab = "Extra", axes = FALSE)
+axis(2)
+axis(1, at = 1 : 2, labels = c("Group 1", "Group 2"))
+for (i in 1 : n1) lines(c(1, 2), c(x1[i], x2[i]), lwd = 2, col = "red")
+for (i in 1 : n1) points(c(1, 2), c(x1[i], x2[i]), lwd = 2, col = "black", bg = "salmon", pch = 21, cex = 3)
