@@ -1,0 +1,226 @@
+---
+title: "SI_JHU_W3Quizz"
+author: "Linda Angulo Lopez"
+date: "11/12/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## StatisticalInference W3_Quizz
+
+In a population of interest, a sample of 9 men yielded a sample average brain
+volume of 1,100cc and a standard deviation of 30cc. What is a 95% Student's T
+confidence interval for the mean brain volume in this new population?
+
+we know that: 
+
+`CI = mu + c(-1,1)*sigma*qt(0.975,df=n-1)/sqrt(n)`
+
+```{r CI_t9MenBrain}
+
+mu <- 1100
+sigma <- 30
+n <- 9
+CI <- mu + c(-1,1)*sigma*qt(0.975,df=n-1)/sqrt(n)
+CI
+#[1] 1076.94 1123.06
+
+```
+
+
+A diet pill is given to 9 subjects over six weeks. The average difference in
+weight (follow up - baseline) is -2 pounds. What would the standard deviation
+of the difference in weight have to be for the upper endpoint of the 95% T
+confidence interval to touch 0?
+
+from, 
+`CI = 0 = mu + c(-1,1)*sigma*qt(0.975,df=n-1)/sqrt(n)`
+plug in, 
+`CI = 0 = -2 + sigma*qt(0.975,8)/sqrt(n)`
+so, 
+`sigma = -mu*sqrt(n)/qt(0.975,df=n-1)`
+
+```{r sd_DietPill_9_6wks}
+
+mu <- -2
+n <- 9
+sigma <- -mu*sqrt(n)/qt(0.975,df=n-1)
+sigma
+
+```
+
+In an effort to improve running performance, 5 runners were either given a
+protein supplement or placebo. Then, after a suitable washout period, they 
+were given the opposite treatment. Their mile times were recorded under both 
+the treatment and placebo, yielding 10 measurements with 2 per subject. The
+researchers intend to use a T test and interval to investigate the treatment.
+
+Should they use a paired or independent group T test and interval?
+
+
+```{r Paired_Independent}
+
+#We want to know the impact of the substitution of treatment and
+#placebo on the same person, from two independant groups, so
+print("We should use a paired t-test.")
+```
+
+
+In a study of emergency room waiting times, investigators consider a new and
+the standard triage systems. To test the systems, administrators selected 20
+nights and randomly assigned the new triage system to be used on 10 nights and
+the standard system on the remaining 10 nights. They calculated the nightly
+median waiting time (MWT) to see a physician. 
+
+The average MWT for the new system was 3 hours with a variance of 0.60 while
+the average MWT for the old system was 5 hours with a variance of 0.68.
+
+Consider the 95% confidence interval estimate for the differences of the mean 
+MWT associated with the new system. Assume a constant variance. What is the
+interval? Subtract in this order (New System - Old System).
+
+We know, 
+`S_p = sqrt(((n_new-1)*v_new +(n_old-1)*v_old)/(n_new + n_old-2))`
+and we know, 
+`CI = (mu_new - mu_old + c(-1,1)*qt(0.975,n_new+n_old-2)*S_p*sqrt(1/n_new + 1/n_old))`
+so we can get S_p & t, 
+then plug in, 
+`R function, qt()`
+to get the new CI.
+
+
+```{r newCI_waitingTime}
+
+mu_old <-5
+mu_new <- 3
+n_old <- 10
+n_new <-  10
+v_new <- 0.6
+v_old<- 0.68
+S_p <- sqrt(((n_new-1)*v_new +(n_old-1)*v_old)/(n_new + n_old-2))
+CI <- (mu_new - mu_old + c(-1,1)*qt(0.975,n_new+n_old-2)*S_p*sqrt(1/n_new + 1/n_old))
+CI
+#[1] -2.751649 -1.248351
+S_p
+
+```
+
+
+
+```{r newCI_waitingTime2 }
+qt(0.975,n_new+n_old-2)
+
+```
+
+
+
+```{r newCI_waitingTime3}
+CI
+#[1] -2.751649 -1.248351
+
+```
+
+
+Suppose that you create a 95% T confidence interval. You then create a 90%
+interval using the same data. What can be said about the 90% interval with
+respect to the 95% interval?
+
+```{r TIntervals95_90}
+print("As tdf,975>tdf,95, the 90% interval will be narrower than the 95% interval.")
+
+```
+
+
+To further test the hospital triage system, administrators selected 200 nights
+and randomly assigned a new triage system to be used on 100 nights and a
+standard system on the remaining 100 nights. They calculated the nightly
+median waiting time (MWT) to see a physician. The average MWT for the new
+system was 4 hours with a standard deviation of 0.5 hours while the average
+MWT for the old system was 6 hours with a standard deviation of 2 hours.
+
+Consider the hypothesis of a decrease in the mean MWT associated with the new
+treatment.
+
+
+What does the 95% independent group confidence interval with unequal variances
+suggest vis a vis this hypothesis? (Because there's so many observations per
+group, just use the Z quantile instead of the T.)
+
+we know, 
+`S_p = sqrt(((n_x - 1) * S_x^2 + (n_y - 1) * S_y^2)/(n_x + n_y - 2))`
+and we know, 
+`CI =  mu_x - mu_y + c(-1, 1) * qnorm(quantile) * S_p * (1 / n_x + 1 / n_y)^.5`
+so we can plug in:
+
+```{r TwoSidedMWT_95CI}
+
+quantile = 0.975
+n_y <- 100     
+n_x <- 100     
+S_y <- 0.50    
+S_x <- 2       
+mu_y <- 4      
+mu_x <- 6      
+
+
+S_p <- sqrt(((n_x - 1) * S_x^2 + (n_y - 1) * S_y^2)/(n_x + n_y - 2))
+
+CI <-  mu_x - mu_y + c(-1, 1) * qnorm(quantile) * S_p * (1 / n_x + 1 / n_y)^.5
+round(CI,2)
+
+#[1] 1.6 2.4
+
+print("When subtracting (old - new) the interval is above zero. 
+so the average meeting time has gone down, the new system appears
+to be effective.")
+
+```
+
+
+Suppose that 18 obese subjects were randomized, 9 each, to a new diet pill and a
+placebo. Subjects’ body mass indices (BMIs) were measured at a baseline and again
+after having received the treatment or placebo for four weeks. The average
+difference from follow-up to the baseline (followup - baseline) was −3 kg/m2 for the
+treated group and 1 kg/m2 for the placebo group. 
+
+The corresponding standard deviations of the differences was 1.5 kg/m2 for the 
+treatment group and 1.8 kg/m2 for the placebo group. 
+
+Does the change in BMI over the four week period appear to differ between the
+treated and placebo groups? Assuming normality of the underlying data and a common
+population variance, calculate the relevant *90%* t confidence interval. Subtract in
+the order of (Treated - Placebo) with the smaller (more negative) number first.
+
+calculate, 
+`S_p = sqrt(((n_x - 1) * S_x^2 + (n_y - 1) * S_y^2)/(n_x + n_y - 2))`
+
+plug in S_p, canculate, 
+`CI <-  mu_y - mu_x + c(-1, 1) * qt(quantile, df=n_y+n_x-2) * S_p * (1 / n_x + 1 / n_y)^.5`
+
+```{r cars}
+
+quantile = 0.95 
+
+n_y <- 9 
+n_x <- 9 
+S_y <- 1.5
+S_x <- 1.8
+mu_y <- -3
+mu_x <- 1
+
+
+S_p <- sqrt(((n_x - 1) * S_x^2 + (n_y - 1) * S_y^2)/(n_x + n_y - 2))
+
+CI <-  mu_y - mu_x + c(-1, 1) * qt(quantile, df=n_y+n_x-2) * S_p * (1 / n_x + 1 / n_y)^.5
+round(CI,3)
+CI
+#[1] -5.364 -2.636
+
+
+```
+
+
+
