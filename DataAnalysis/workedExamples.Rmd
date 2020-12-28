@@ -1,0 +1,181 @@
+---
+title: "Worked Examples"
+author: "Linda Angulo Lopez"
+date: "28/12/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Worked Examples:
+
+`A pharmaceutical company is interested in testing a potential blood pressure lowering medication. Their
+first examination considers only subjects that received the medication at baseline then two weeks later.
+The data are as follows (SBP in mmHg)`
+
+
+Subject	Baseline	Week 2
+1	140        	132
+2	138     	135
+3	150     	151
+4	148     	146
+5	135     	130
+Consider testing the hypothesis that there was a mean reduction in blood pressure? Give the P-value for 
+the associated two sided T test. 
+
+(Hint, consider that the observations are paired.)
+
+```{r cars}
+
+subject <- c(1,2,3,4,5)
+baseline <- c(140,138,150,148,135)
+week2 <- c(132,135,151,146,130)
+Results_B_W2 <- data.frame(subject, baseline, week2)
+Results_B_W2
+
+```
+
+
+
+```{r}
+
+TTTest <- t.test(x = Results_B_W2$baseline, y = Results_B_W2$week2, alt = "two.sided", paired = TRUE)
+pval <- round(TTTest$p.value, 3)
+pval
+```
+
+
+
+`A sample of 9 men yielded a sample average brain volume of 1,100cc and a standard deviation of 30cc. 
+What is the complete set of values of  mu_0 that a test of  H_0: mu = mu_0 would fail to reject the 
+null hypothesis in a two sided 5% Students t-test?`
+
+
+
+```{r}
+n <- 9
+mu <- 1100
+sigma <- 30
+quantile = 0.975 # is 95% with 2.5% on both sides of the range
+CI = mu + c(-1, 1) * qt(quantile, df=n-1) * sigma / sqrt(n)
+CI
+
+```
+
+
+
+`Researchers conducted a blind taste test of Coke versus Pepsi. Each of four people was asked which of 
+two blinded drinks given in random order that they preferred. The data was such that 3 of the 4 people
+chose Coke. Assuming that this sample is representative, report a P-value for a test of the hypothesis
+that Coke is preferred to Pepsi using a one sided exact test.`
+
+
+```{r}
+
+n <- 4
+x <- 3
+CokePepsi <- binom.test(x=x, n=n, alt="greater")
+round(CokePepsi$p.value,2)
+
+```
+
+
+`Infection rates at a hospital above 1 infection per 100 person days at risk are believed to be too high
+and are used as a benchmark. A hospital that had previously been above the benchmark recently had 10
+infections over the last 1,787 person days at risk. About what is the one sided P-value for the relevant
+test of whether the hospital is *below* the standard? `
+
+
+
+```{r}
+
+rate <- 1/100
+errors <- 10
+days <- 1787
+Standards <-  poisson.test(errors, T = days, r = rate, alt="less")
+round(Standards$p.value,2)
+```
+
+
+
+`Suppose that 18 obese subjects were randomized, 9 each, to a new diet pill and a placebo. Subjects’ body
+mass indices (BMIs) were measured at a baseline and again after having received the treatment or placebo
+for four weeks. The average difference from follow-up to the baseline (followup - baseline) was −3 kg/m2
+for the treated group and 1 kg/m2 for the placebo group. The corresponding standard deviations of the
+differences was 1.5 kg/m2 for the treatment group and 1.8 kg/m2 for the placebo group. Does the change in
+BMI appear to differ between the treated and placebo groups?  Assuming normality of the underlying data
+and a common population variance, give a pvalue for a two sided t test.`
+
+
+```{r}
+
+n_treated <- 9
+n_placebo  <- 9 
+sigma_treated <- 1.5 
+sigma_placebo <- 1.8
+mu_treated <- -3
+mu_placebo <- 1
+
+# calculate pooled standard deviation
+sigma_pooled <- ((( n_treated- 1) * sigma_treated^2 + (n_placebo - 1) * sigma_placebo^2)/(n_treated + n_placebo - 2))
+pval <- pt((mu_treated - mu_placebo) / (sigma_pooled * (1 / n_placebo + 1 / n_treated)^.5), df=n_treated + n_placebo -2)
+pval
+
+
+```
+
+
+
+`Brain volumes for 9 men yielded a 90% confidence interval of 1,077 cc to 1,123 cc. Would you reject in 
+a two sided 5% hypothesis test of  H_0 : mu = 1,078 ? `
+
+```{r}
+
+print( 'I will not reject it as it falls in the 1077- 1123 range.')
+```
+
+`Researchers would like to conduct a study of  100 100 healthy adults to detect a four year mean brain
+volume loss of   .01~mm^3 . Assume that the standard  deviation of four year volume loss in this
+population is  .04~mm^3. About what would be the power of the study for a  5% one sided test versus a 
+null hypothesis of no volume loss?`
+
+
+
+```{r}
+
+n <- 100
+mu <- 0.01
+sigma <- 0.04
+SLevel <- 0.05
+
+BrainPower <- round(power.t.test(n=n, delta=mu, sd=sigma , sig.level=SLevel, type="one.sample", alt="one.sided")$power, 2)
+
+BrainPower
+```
+
+`Researchers would like to conduct a study of  healthy adults to detect a four year mean brain volume
+loss of  .01~mm^3 . Assume that the standard deviation of four year volume loss in this population is 
+.04~mm^3 .About what would be the value of  n needed for  90% power of type one error rate of  5%
+one sided test versus a null hypothesis of no volume loss?`
+
+```{r}
+mu <- 0.01
+sigma <- 0.04 
+SLevel2 <- 0.05
+BrainPower2 <- 0.9 
+
+SampleSize <- power.t.test(power=BrainPower2, delta=mu, sd=sigma , sig.level=SLevel2, type="one.sample", alt="one.sided")$n
+
+ceiling(SampleSize)
+```
+
+`As you increase the type one error rate, alpha α, what happens to power?`
+
+```{r}
+print('The power increases')
+
+```
+
+
