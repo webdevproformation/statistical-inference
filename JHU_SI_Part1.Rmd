@@ -1,5 +1,6 @@
 ---
 title: "The Central Limit Theorem, a Swiss Army Knife of Statistics"
+subtitle: Statistical Inference
 author: "Linda Angulo Lopez"
 date: "29/12/2020"
 output:
@@ -16,40 +17,31 @@ widgets: mathjax
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-
-
 #### Introduction
-The project consists of two parts (i) a simulation exercise and (ii) a basic inferential data analysis, the former is presented here.
-
-Asymptotics form the basis for frequency interpretation of probabilities, where the behavior of statistics depends on the sample size or some other relevant quantity of limits to infinity or to zero. These limits are the [the swiss army knives of statistics](https://github.com/bcaffo/courses/raw/master/06_StatisticalInference/07_Asymptopia/index.pdf), Brian Caffo. 
+The project consists of two parts (i) a simulation exercise and (ii) a basic inferential data analysis, the former is presented here. Asymptotics form the basis for frequency interpretation of probabilities, where the behavior of statistics depends on the sample size or some other relevant quantity of limits to infinity or to zero, the [the Swiss Army Knives of Statistics](https://github.com/bcaffo/courses/raw/master/06_StatisticalInference/07_Asymptopia/index.pdf), Brian Caffo. 
 
 
 Simulations were made to investigate the asymptotic distributions of exponential distributions, a discreet case, and compared to test
 statistics which are expected to be Gaussian, a strong form of the [Central Limit Theorem](https://youtu.be/hgtMWR3TFnY), in R4.0. Results
-show that like with greater $n$in the CLT, with an increase the unit of time,$\lambda$, the coverage improves and adheres to the CLT.
+show that like with greater $n$ in the CLT, or with an increase the unit of time, $\lambda$, the coverage improves and adheres to the CLT.
 
 
 ```{r environment}
+#R4.0 Environmental Settings
 library(knitr) # creating the document 
 library(ggplot2) # making plots
 
 ```
 
-`key words:`Asymptotics,  The Central Limit Theorem, Sample Mean versus Theoretical Mean, Sample Variance, versus Theoretical Variance, Distributions.
+`key words:`Asymptotics,  The Central Limit Theorem, Sample Mean versus Theoretical Mean, Sample Variance, versus Theoretical Variance, Distributions, Statistical Inference.
 
 
 
-#### Asymptotics
+#### Asymptotics & The Central Limit Theorem, CTL 
 
 The Law of Large Numbers, is intuitive it says that if we collect an infinite amount of data we get close to the right answer. That is our
-sample means, the sample variance and the sample standard deviation of the [iid random variables](https://en.wikipedia.org/wiki/Independent_and_identically_distributed_random_variables) are consistent.
+sample means, the sample variance and the sample standard deviation of the [iid random variables](https://en.wikipedia.org/wiki/Independent_and_identically_distributed_random_variables) are consistent. The CLT establishes that in a frequency plot, the properly normalized sum tends toward a normal distribution, a bell curve, even if the original variables themselves are not normally distributed, which implies that `probabilistic and statistical methods that work for normal distributions can be applicable to many problems involving other types of distributions`. 
 
-
-
-####  The Central Limit Theorem, CTL 
-The CLT establishes that in a frequency plot, the properly normalized sum tends toward a normal distribution, a bell curve, even if the
-original variables themselves are not normally distributed, which implies that `probabilistic and statistical methods that work for normal`
-`distributions can be applicable to many problems involving other types of distributions`. 
 
 The CLT says, for a large $n$, this normalized variable, $\frac{\bar X_n - \mu}{\sigma / \sqrt{n}}$ is almost normally distributed with a
 `mean of 0 and variance of 1`: 
@@ -58,7 +50,9 @@ The CLT says, for a large $n$, this normalized variable, $\frac{\bar X_n - \mu}{
 \frac{\bar X_n - \mu}{\sigma / \sqrt{n}} = 
     \frac{\mbox{Estimate} - \mbox{Mean of estimate}}{\mbox{Std. Err. of estimate}}.
 \]
-- Here is the case of [an unbiased coin flip experiment, p =.5 is presented](https://www.coursera.org/learn/statistical-inference/lecture/K2IVE/07-02-asymptotics-and-the-clt).
+- 
+
+First the case of [a fair die, p=.167 for each of the sides an unbiased coin flip experiment, p =.5 are  presented](https://www.coursera.org/learn/statistical-inference/lecture/K2IVE/07-02-asymptotics-and-the-clt).
 
 
 
@@ -149,7 +143,7 @@ print(g3)
 ```
 
 
-We see that like with greater $n$in the CLT, with the coverage improves when we increase the unit of time, $\lambda$. In the above plot 
+We see that like with greater $n$ in the CLT, with the coverage improves when we increase the unit of time, $\lambda$. In the above plot 
 we used t=100 (rounding the 94.32 up). Below is a plot of the same experiment setting t=1000. We see that the coverage is much better for
 almost all the values of lambda, except for the smallest ones.
 

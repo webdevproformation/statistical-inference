@@ -1,5 +1,6 @@
 ---
 title: "The Central Limit Theorem, a Swiss Army Knife of Statistics"
+subtitle: Statistical Inference
 author: "Linda Angulo Lopez"
 date: "29/12/2020"
 output:
@@ -20,49 +21,56 @@ knitr::opts_chunk$set(echo = TRUE)
 
 #### Introduction
 The project consists of two parts (i) a simulation exercise and (ii) a basic inferential data analysis, the former is presented here.
-
-Asymptotics form the basis for frequency interpretation of probabilities, where the behavior of statistics depends on the sample size or some other relevant quantity of limits to infinity or to zero. These limits are the [the swiss army knives of statistics](https://github.com/bcaffo/courses/raw/master/06_StatisticalInference/07_Asymptopia/index.pdf), Brian Caffo. 
+Asymptotics form the basis for frequency interpretation of probabilities, where the behavior of statistics depends on the sample size or
+some other relevant quantity of limits to infinity or to zero, and are the [the Swiss Army Knives of Statistics](https://github.com/bcaffo/courses/raw/master/06_StatisticalInference/07_Asymptopia/index.pdf), Brian Caffo. 
 
 
 Simulations were made to investigate the asymptotic distributions of exponential distributions, a discreet case, and compared to test
 statistics which are expected to be Gaussian, a strong form of the [Central Limit Theorem](https://youtu.be/hgtMWR3TFnY), in R4.0. Results
-show that like with greater $n$in the CLT, with an increase the unit of time,$\lambda$, the coverage improves and adheres to the CLT.
+show that like with greater $n$ in the CLT, or with an increase the unit of time, $\lambda$, the coverage improves and adheres to the CLT.
+
 
 
 ```{r environment}
+#R4.0 Environmental Settings
 library(knitr) # creating the document 
 library(ggplot2) # making plots
 
 ```
 
-`key words:`Asymptotics,  The Central Limit Theorem, Sample Mean versus Theoretical Mean, Sample Variance, versus Theoretical Variance, Distributions.
+`key words:`Asymptotics,  The Central Limit Theorem, Sample Mean versus Theoretical Mean, Sample Variance, versus Theoretical Variance,
+Distributions, Statistical Inference.
 
 
 
-#### Asymptotics
+
+#### Asymptotics & The Central Limit Theorem, CTL
 
 The Law of Large Numbers, is intuitive it says that if we collect an infinite amount of data we get close to the right answer. That is our
 sample means, the sample variance and the sample standard deviation of the [iid random variables](https://en.wikipedia.org/wiki/Independent_and_identically_distributed_random_variables) are consistent.
 
 
 
-####  The Central Limit Theorem, CTL 
 The CLT establishes that in a frequency plot, the properly normalized sum tends toward a normal distribution, a bell curve, even if the
-original variables themselves are not normally distributed, which implies that `probabilistic and statistical methods that work for normal`
-`distributions can be applicable to many problems involving other types of distributions`. 
+original variables themselves are not normally distributed, which implies that probabilistic and statistical methods that work for normal
+distributions can be applicable to many problems involving other types of distributions. 
+
 
 The CLT says, for a large $n$, this normalized variable, $\frac{\bar X_n - \mu}{\sigma / \sqrt{n}}$ is almost normally distributed with a
 `mean of 0 and variance of 1`: 
+
 
 \[
 \frac{\bar X_n - \mu}{\sigma / \sqrt{n}} = 
     \frac{\mbox{Estimate} - \mbox{Mean of estimate}}{\mbox{Std. Err. of estimate}}.
 \]
-- Here is the case of [an unbiased coin flip experiment, p =.5 is presented](https://www.coursera.org/learn/statistical-inference/lecture/K2IVE/07-02-asymptotics-and-the-clt).
+
+
+First the case of [a fair die p =.167 for each of the sides, then an unbiased coin flip experiment, p =.5 are is presented ](https://www.coursera.org/learn/statistical-inference/lecture/K2IVE/07-02-asymptotics-and-the-clt).
 
 
 
-## Simulations of Coverage in the CLT 
+## Simulations of Coverage in the CLT with a fai die, p=.167 for each of the sides.
 
 ```{r,  fig.width = 10, fig.height = 6, fig.asp = .618, plot_CLT_1, echo=FALSE}
 
@@ -87,11 +95,12 @@ print(g)
 
 
 The output depends on R's random number generator, but as the sample size increases from n= (5,10,50) the density curve for the blue plots
-$n$=50 adheres to the CLT, it is bell shaped, and so it is consistent as it converges to what it's trying to estimate, this is `a strong case for the CLT`.
+$n$=50 adheres to the CLT, it is bell shaped, and so it is consistent as it converges to what it's trying to estimate, this is a strong case
+for the CLT.
 
 
 
-#### Confidence intervals: 
+## Confidence intervals with a coin flip, p=.5 
 From the CLT we also know that 95% of the area under a normal curve is within two standard deviations of the mean. 
 
 ```{r fig.width = 6, fig.height = 4, fig.asp = .618, plot_CI_1, echo=FALSE }
@@ -111,9 +120,10 @@ The entire shaded portion of the plot depicts the area within 2 standard deviati
 
 
 
-## Simulations of Coverage for an exponential distribution 
-When dealing with distributions which apply to counts or rates, $\lambda$, the rate per unit of time or space at which the event occurs, is
-the limiting factor. Taking the course example, suppose a nuclear pump failed 5 times out of 94.32 days and we want a 95% confidence
+## Simulations of Coverage for an Exponential Distribution 
+
+When dealing with distributions which apply to counts or rates, $\lambda$, the rate per unit of time or space at which the event occurs,
+is the limiting factor. Taking the course example, suppose a nuclear pump failed 5 times out of 94.32 days and we want a 95% confidence
 interval for the failure rate per day, we can estimate the failure rate = 5/94.32: 
 \[
 \frac{\lambda}{t}
@@ -176,5 +186,12 @@ print(g4)
 - This is an [R Markdown document](http://rmarkdown.rstudio.com),created as a submission
 for the Statistical [Inference Course by Johns Hopkins University on Coursera](https://www.coursera.org/specializations/jhu-data-science). 
 
-- Note that the `echo = FALSE` parameter was added to several code chunks to prevent printing of the R code that generated the plots, you can find similar code in the [swirl repo on Github](https://github.com/swirldev/swirl_courses). 
+- Note that the `echo = FALSE` parameter was added to several code chunks to prevent printing of the R code that generated the plots, you 
+can find similar code in the [swirl repo on Github](https://github.com/swirldev/swirl_courses) in the Statistical Inference/Asymptotics 
+documents. 
+
+- Not all cases were dealt with here, such as the Agresti/Coull intervalfor dealing with small numbersor other cases of when data is being
+sampled from is very non-normal, which were dealt with in the 
+[JHU Data Science Specialization on COURSERA](https://www.coursera.org/specializations/jhu-data-science).
+
 
