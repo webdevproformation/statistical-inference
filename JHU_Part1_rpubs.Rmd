@@ -1,0 +1,180 @@
+---
+title: "The Central Limit Theorem, a Swiss Army Knife of Statistics"
+author: "Linda Angulo Lopez"
+date: "29/12/2020"
+output:
+  html_document:
+    df_print: paged
+  pdf_document: default
+job: Sustainability Hacker
+fig_width: 3
+fig_height: 2
+widgets: mathjax
+---
+
+```{r setup, fig.width = 3, fig.height = 2, fig.asp = .618, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+
+#### Introduction
+The project consists of two parts (i) a simulation exercise and (ii) a basic inferential data analysis, the former is presented here.
+
+Asymptotics form the basis for frequency interpretation of probabilities, where the behavior of statistics depends on the sample size or some other relevant quantity of limits to infinity or to zero. These limits are the [the swiss army knives of statistics](https://github.com/bcaffo/courses/raw/master/06_StatisticalInference/07_Asymptopia/index.pdf), Brian Caffo. 
+
+
+Simulations were made to investigate the asymptotic distributions of exponential distributions, a discreet case, and compared to test
+statistics which are expected to be Gaussian, a strong form of the [Central Limit Theorem](https://youtu.be/hgtMWR3TFnY), in R4.0. Results
+show that like with greater $n$in the CLT, with an increase the unit of time,$\lambda$, the coverage improves and adheres to the CLT.
+
+
+```{r environment}
+library(knitr) # creating the document 
+library(ggplot2) # making plots
+
+```
+
+`key words:`Asymptotics,  The Central Limit Theorem, Sample Mean versus Theoretical Mean, Sample Variance, versus Theoretical Variance, Distributions.
+
+
+
+#### Asymptotics
+
+The Law of Large Numbers, is intuitive it says that if we collect an infinite amount of data we get close to the right answer. That is our
+sample means, the sample variance and the sample standard deviation of the [iid random variables](https://en.wikipedia.org/wiki/Independent_and_identically_distributed_random_variables) are consistent.
+
+
+
+####  The Central Limit Theorem, CTL 
+The CLT establishes that in a frequency plot, the properly normalized sum tends toward a normal distribution, a bell curve, even if the
+original variables themselves are not normally distributed, which implies that `probabilistic and statistical methods that work for normal`
+`distributions can be applicable to many problems involving other types of distributions`. 
+
+The CLT says, for a large $n$, this normalized variable, $\frac{\bar X_n - \mu}{\sigma / \sqrt{n}}$ is almost normally distributed with a
+`mean of 0 and variance of 1`: 
+
+\[
+\frac{\bar X_n - \mu}{\sigma / \sqrt{n}} = 
+    \frac{\mbox{Estimate} - \mbox{Mean of estimate}}{\mbox{Std. Err. of estimate}}.
+\]
+- Here is the case of [an unbiased coin flip experiment, p =.5 is presented](https://www.coursera.org/learn/statistical-inference/lecture/K2IVE/07-02-asymptotics-and-the-clt).
+
+
+
+## Simulations of Coverage in the CLT 
+
+```{r,  fig.width = 10, fig.height = 6, fig.asp = .618, plot_CLT_1, echo=FALSE}
+
+
+nosim <- 1000
+cfunc <- function(x, n) sqrt(n) * (mean(x) - 3.5) / 1.71
+dat <- data.frame(
+  x = c(apply(matrix(sample(1 : 6, nosim * 5, replace = TRUE), 
+                     nosim), 1, cfunc, 5),
+        apply(matrix(sample(1 : 6, nosim * 10, replace = TRUE), 
+                     nosim), 1, cfunc, 10),
+        apply(matrix(sample(1 : 6, nosim * 50, replace = TRUE), 
+                     nosim), 1, cfunc, 50)
+  ),
+  size = factor(rep(c(5, 10, 50), rep(nosim, 3))))
+g <- ggplot(dat, aes(x = x, fill = size)) + geom_histogram(alpha = .20, binwidth=.3, colour = "black", aes(y = ..density..)) 
+g <- g + stat_function(fun = dnorm, size = 2)
+g <- g + facet_grid(. ~ size)
+print(g)
+
+```
+
+
+The output depends on R's random number generator, but as the sample size increases from n= (5,10,50) the density curve for the blue plots
+$n$=50 adheres to the CLT, it is bell shaped, and so it is consistent as it converges to what it's trying to estimate, this is `a strong case for the CLT`.
+
+
+
+#### Confidence intervals: 
+From the CLT we also know that 95% of the area under a normal curve is within two standard deviations of the mean. 
+
+```{r fig.width = 6, fig.height = 4, fig.asp = .618, plot_CI_1, echo=FALSE }
+x <- seq(-4, 4, length = 1000)
+dat <- data.frame(x=x, y=dnorm(x))
+g2 <- ggplot(dat, aes(x = x, y = y)) + geom_line(size = 1.5)
+g2 <- g2 + geom_ribbon(aes(x = ifelse(x > -1 & x < 1, x, 0), ymin = 0, ymax = y), fill = "yellow", alpha = .5)
+g2 <- g2 +  geom_ribbon(aes(x = ifelse(x > -2 & x < 2, x, 0), ymin = 0, ymax = y), fill = "yellow", alpha = 0.25)
+print(g2)
+
+```
+
+The entire shaded portion of the plot depicts the area within 2 standard deviations of the mean and the darker yellow portion shows the
+68% of the area within 1 standard deviation, we use the R function qnorm to find the 95th quantile for a standard normal distribution. 
+
+
+
+
+
+## Simulations of Coverage for an exponential distribution 
+When dealing with distributions which apply to counts or rates, $\lambda$, the rate per unit of time or space at which the event occurs, is
+the limiting factor. Taking the course example, suppose a nuclear pump failed 5 times out of 94.32 days and we want a 95% confidence
+interval for the failure rate per day, we can estimate the failure rate = 5/94.32: 
+\[
+\frac{\lambda}{t}
+\]
+where $\lambda$ is our estimated mean and  $t$ is time, and  we can verify this in R.
+
+
+```{r poisson_test}
+poisson.test(5,94.32)$conf
+#The formula we've used to calculate a 95% confidence interval is
+#est mean + c(-1,1)*qnorm(.975)*sqrt(est var).
+```
+
+To check the coverage of our estimate we can run a simulation experiment and vary $\lambda$ from .005 to .1 with steps of .01 (so we have
+10 of them), and for each one we'll generate 1000 Poisson samples with mean $\lambda$ times $t$. Calculate  sample means and use them to 
+compute  95% confidence intervals. We'll then count how often out of the 1000 simulations the true mean (our lambda) was contained in the
+computed interval.
+ 
+- t =100
+
+```{r fig.width = 6, fig.height = 4, fig.asp = .618, plot_Poisson, echo=FALSE}
+
+lambdavals <- seq(0.005, 0.10, by = .01); nosim <- 1000
+t <- 100
+coverage <- sapply(lambdavals, function(lambda){
+  lhats <- rpois(nosim, lambda = lambda * t) / t
+  ll <- lhats - qnorm(.975) * sqrt(lhats / t)
+  ul <- lhats + qnorm(.975) * sqrt(lhats / t)
+  mean(ll < lambda & ul > lambda)
+})
+g3 <- ggplot(data.frame(lambdavals, coverage), aes(x = lambdavals, y = coverage)) + geom_line(size = 2) + geom_hline(yintercept = 0.95)+ylim(0, 1.0)
+print(g3)
+```
+
+
+We see that like with greater $n$in the CLT, with the coverage improves when we increase the unit of time, $\lambda$. In the above plot 
+we used t=100 (rounding the 94.32 up). Below is a plot of the same experiment setting t=1000. We see that the coverage is much better for
+almost all the values of lambda, except for the smallest ones.
+
+- t = 1000
+
+```{r fig.width = 6, fig.height = 4, fig.asp = .618, plot_Poisson_2, echo=FALSE}
+
+lambdavals <- seq(0.005, 0.10, by = .01); nosim <- 1000
+t <- 1000
+coverage <- sapply(lambdavals, function(lambda){
+  lhats <- rpois(nosim, lambda = lambda * t) / t
+  ll <- lhats - qnorm(.975) * sqrt(lhats / t)
+  ul <- lhats + qnorm(.975) * sqrt(lhats / t)
+  mean(ll < lambda & ul > lambda)
+})
+g4 <- ggplot(data.frame(lambdavals, coverage), aes(x = lambdavals, y = coverage)) + geom_line(size = 2) + geom_hline(yintercept = 0.95)+ylim(0, 1.0)
+print(g4)
+```
+
+
+
+*Afternotes:* 
+
+- This is an [R Markdown document](http://rmarkdown.rstudio.com),created as a submission
+for the Statistical [Inference Course by Johns Hopkins University on Coursera](https://www.coursera.org/specializations/jhu-data-science). 
+
+- Note that the `echo = FALSE` parameter was added to several code chunks to prevent printing of the R code that generated the plots, you can find similar code in the [swirl repo on Github](https://github.com/swirldev/swirl_courses). 
+
