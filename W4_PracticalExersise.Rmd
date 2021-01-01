@@ -1,0 +1,105 @@
+---
+title: "Basic Inferential Data Analysis Exercise"
+subtitle: Statistical Inference
+author: "Linda Angulo Lopez"
+date: "01/01/2021"
+output:
+  pdf_document: default
+  html_document:
+    df_print: paged
+job: Sustainability Hacker
+fig_width: 5
+fig_height: 2
+widgets: mathjax
+---
+
+```{r setup, fig.width = 3, fig.height = 2, fig.asp = .618, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+`key words:`ToothGrowth data, Data Exploration, T Tests, Box Plots, Data Analysis, Statistical Inference.
+
+#### Summary
+The project consists of two parts (i) [a simulation exercise](https://rpubs.com/lindangulopez/709073) and a (ii) basic inferential data analysis, the former is presented here. The hypothesis tested, was that `the dosage and supplement do not affect tooth length`, the alternative is that it does. The the population was assumed to be near normally distributed. It was also found that at p-value is 0.03032, when comparing orange juice to vitamin C, so we can reject the null hypothesis. Further investigation showed that orange juice is linked to higher tooth growth length at dose = .5mg and dose = 1.0mg. But that there is no significant difference of tooth length at dose = 2.0mg, the p-value was almost 1 at 0.9639.
+
+
+```{r,  R_environment, results='hide',  warning=FALSE , message=FALSE}
+#R4.0 Environmental Set for:
+library(knitr) # creating a pdf document ; 
+library(ggplot2) # making plots
+library(dplyr) #exploring data
+library(DataExplorer) # creating reports
+library(UsingR); data("ToothGrowth") # Read in the ToothGrowth data
+```
+
+
+### Plot & explore data
+Here is a glimpse of the data:ToothGrowth, and a basic data summary:
+```{r, explore_data}
+glimpse(ToothGrowth); summary(ToothGrowth)
+
+```
+
+*and a quick plot of the data: ToothGrowth*
+
+```{r, Plot_data,  fig.width = 5, fig.height =2, fig.asp = .618,echo=FALSE}
+plot(ToothGrowth)
+```
+
+
+
+From the quick data plots we see that the tooth length varies by dose & supplements, the following box plots affirm this.
+
+*Closer Inspection: Dose*
+
+```{r, DOSE_box_plots,   fig.width = 5, fig.height =2, fig.asp = .618, echo=FALSE }
+
+ggplot(data = ToothGrowth, aes(x = dose, y = len)) +
+        geom_boxplot(aes(fill = supp)) + facet_wrap(~supp) + theme_bw()
+```
+
+It seems that orange juice is linked to better tooth grown results, we will use a *t test* to evaluate the statistical significance. 
+```{r, Dose,  echo=FALSE}
+dose0.5 <- ToothGrowth %>% filter(dose == 0.5)
+dose1.0 <- ToothGrowth %>% filter(dose == 1.0)
+dose2.0 <- ToothGrowth %>% filter(dose == 2.0)
+rbind(
+       t.test(len~supp, paired=F, var.equal=F, data=dose0.5)$conf.int[1:2],
+       t.test(len~supp, paired=F, var.equal=F, data=dose1.0)$conf.int[1:2],
+       t.test(len~supp, paired=F, var.equal=F, data=dose2.0)$conf.int[1:2] )
+```
+So, we see that there is a greater tooth length at doses .5 and 1.0 but that it is split at zero at dose 2.0. So we can accept the hypothesis at dose .5 and 1.0 as at these doses orange juice is linked to higher tooth growth length.
+
+Let's *split the data* to get more insights with a *Welch t-test*:
+```{r, split_data, echo=FALSE }
+OJ = ToothGrowth$len[ToothGrowth$supp == 'OJ']
+VC = ToothGrowth$len[ToothGrowth$supp == 'VC']
+
+t.test(OJ, VC, alternative = "greater", paired = FALSE, var.equal = FALSE, conf.level = 0.95)
+```
+If we set alpha to .05 we can reject the null hypothesis, as the p -value, .03, is lower than alpha.
+
+Let's plot that: 
+```{r, SUPPbox_plots,  fig.width = 5, fig.height =2, fig.asp = .618, echo=FALSE }
+ggplot(data = ToothGrowth, aes(x = supp, y = len)) +
+        geom_boxplot(aes(fill = supp)) + facet_wrap(~dose) + theme_bw()
+```
+
+From the box plot we see that at dose = 2mg both vitamin C, VC, and Orange Juice, OJ, produce tooth length of around 26. This can be affirmed with a *two sided Welch t-test*.
+
+```{r, split_data2, echo=FALSE }
+OJ2 = ToothGrowth$len[ToothGrowth$supp == 'OJ' & ToothGrowth$dose == 2]
+VC2 = ToothGrowth$len[ToothGrowth$supp == 'VC' & ToothGrowth$dose == 2]
+t.test(OJ2, VC2, alternative = "two.sided", paired = FALSE, var.equal = FALSE, conf.level = 0.95)
+```
+
+The means are the same, so there is no difference, the p-value = 0.9639 almost 1.
+
+*After-note:* 
+- This is an [R Markdown document](http://rmarkdown.rstudio.com),created as a submission
+for the Statistical [Inference Course by Johns Hopkins University on Coursera](https://www.coursera.org/specializations/jhu-data-science). 
+- The  the exercise can be replicated [hidden code is available here](http://rpubs.com/lindangulopez/709101).
+
+
+
+
+
