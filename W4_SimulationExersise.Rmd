@@ -1,0 +1,101 @@
+---
+title: "Exponential Distribution Simulation Exercise"
+subtitle: Statistical Inference
+author: "Linda Angulo Lopez"
+date: "01/01/2021"
+output:
+  pdf_document: default
+  html_document:
+    df_print: paged
+job: Sustainability Hacker
+fig_width: 3
+fig_height: 2
+widgets: mathjax
+---
+
+```{r setup, fig.width = 3, fig.height = 2, fig.asp = .618, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+`key words:`Asymptotic,  The Central Limit Theorem, Sample Mean vs Theoretical Mean, Sample Variance vs Theoretical Variance, Distributions, Quantiles, Statistical Inference.
+
+#### Introduction
+The project consists of two parts (i) a simulation exercise and a (ii) basic inferential data analysis, the former is presented here. Asymptotics form the basis for frequency interpretation of probabilities, where the behavior of statistics depends on the sample size or some other relevant quantity of limits to infinity or to zero, [the Swiss Army Knives of Statistics](https://rpubs.com/lindangulopez/708518). 
+
+
+An exponential distribution is the probability distribution that describes the time between events in a Poisson process, i.e. a process in which events occur continuously and independently at a constant average rate. A thousand simulations, our samples, each of  $n$ = 40  were run to investigate if `the sampling distribution of exponential distribution has a normal distribution with a mean that matches the population mean and a variance that matches the theoretical result`. It was found that for the exponential distribution generated the true mean that matches the population mean and a variance that matches the theoretical result in addition the distributions have similar means at the quantiles: 5%, 25%, 50% , 75%  and 95%. 
+
+
+```{r,  R_environment, results='hide',  warning=FALSE , message=FALSE}
+#R4.0 Environmental Set for:
+library(knitr) # creating a pdf document ; 
+library(ggplot2) # making plots
+library(dplyr) #exploring data
+library(DataExplorer) # creating reports
+```
+
+
+### Exponential Distribution Simulation: 
+
+A discreet case of the CLT, 1000 trials were simulated in with the R function `rexp(n, lambda)` where lambda,  $\lambda$ , was set to 0.2, this is the rate parameter. The mean & the standard deviation of an exponential distribution is  1/$\lambda$ , for $n$ = 40. Data was then explored with glimpse() and summary().
+
+*create, explore & plot data*
+A pseudo-random number generator was used so that the exercise is replicable,data was explored with the dplyr and DataExplorer libraries from [CRAN](https://cran.r-project.org/web/packages/available_packages_by_date.html).
+
+Here is a glimpse of the data:Data_SM1, and a basic data summary:
+
+```{r, create_explore_plot_data}
+set.seed(42); lambda <- 0.2; nosim <- 1000; n <- 40 ; 
+SimulationMatrix_1 <- matrix(rexp(nosim * n, rate = lambda), nosim); 
+Data_SM1 <- apply(SimulationMatrix_1, 1, mean); glimpse(Data_SM1); summary(Data_SM1)
+
+```
+
+*Here is a plot of the data: Data_SM1*
+
+```{r, PlotData,  fig.width = 10, fig.height =2.5, fig.asp = .618,echo=FALSE}
+plot(Data_SM1)
+```
+
+
+*Mean vs True Mean*
+We can get the mean of the data with mean() and the theoretical mean is 1/$\lambda$. We see that The mean of the data, the true mean is close to the theoretical mean:
+
+```{r, MeanvsTrueMeam, echo=FALSE }
+mean_Data <-mean(Data_SM1) ; mean_Data;TheoMean <- 1/lambda ; TheoMean
+```
+
+After taking a peak at the report generated with create_report(), we see that the histogram has a bell shaped curve it looks like a normal distribution.
+
+```{r, HistogramDatav,  fig.width = 10, fig.height = 2.5, fig.asp = .618,echo=FALSE}
+#create_report(Data_SM1), the histogram is interesting
+hist(Data_SM1)
+
+```
+
+
+*True variance vs Theoretical variance*
+We can get the variance of the data by using the result of the sd() function squared and the  theoretical value is $\sigma2n$ = 1/$\lambda^2n$. We see that The variance of the data is close to the theoretical variance:
+
+```{r, VariancevsTrueVariance}
+Variance_Data <- sd(Data_SM1)^2 ; Variance_Data; TheoVar <- 1/((lambda^2)*n); TheoVar
+```
+
+*Comparing Distributions*
+The easiest way to compare the data vs theoretical distributions would be to use the qnorn() function to get the normal distributions and quantile() to get the quantiles of the data then compare the true vs theoretical values. We see that the distribution of quantiles, for the data is close to the theoretical quantiles:
+
+```{r, DatavsCTL}
+Quantiles_DatavsTheo <-c(0.05, 0.25, 0.5, 0.75, 0.95); quantile(Data_SM1,  Quantiles_DatavsTheo); 
+qnorm(Quantiles_DatavsTheo, mean = mean(Data_SM1), sd = sd(Data_SM1))
+```
+
+
+*After-note:* 
+
+- This is an [R Markdown document](http://rmarkdown.rstudio.com),created as a submission
+for the Statistical [Inference Course by Johns Hopkins University on Coursera](https://www.coursera.org/specializations/jhu-data-science). 
+- [Hidden code is avaialbe here](http://rpubs.com/lindangulopez/709078),
+
+
+
+
+

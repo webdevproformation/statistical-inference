@@ -1,0 +1,133 @@
+---
+title: "Exponential Distribution Simulation Exercise"
+subtitle: Statistical Inference
+author: "Linda Angulo Lopez"
+date: "01/01/2021"
+output:
+  html_document:
+    df_print: paged
+  pdf_document: default
+job: Sustainability Hacker
+fig_width: 3
+fig_height: 2
+widgets: mathjax
+---
+
+```{r setup, fig.width = 3, fig.height = 2, fig.asp = .618, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+`key words:`Asymptotic,  The Central Limit Theorem, Sample Mean vs Theoretical Mean, Sample Variance vs Theoretical Variance, Distributions, Quantiles, Statistical Inference.
+
+#### Introduction
+The project consists of two parts (i) a simulation exercise and a (ii) basic inferential data analysis, the former is presented here. Asymptotics form the basis for frequency interpretation of probabilities, where the behavior of statistics depends on the sample size or some other relevant quantity of limits to infinity or to zero, [the Swiss Army Knives of Statistics](https://rpubs.com/lindangulopez/708518). 
+
+
+An exponential distribution is the probability distribution that describes the time between events in a Poisson process, i.e. a process in which events occur continuously and independently at a constant average rate. A thousand simulations, our samples, each of  $n$ = 40  were run to investigate the asymptotic of an [exponential distribution](https://en.wikipedia.org/wiki/Exponential_distribution)](https://en.wikipedia.org/wiki/Exponential_distribution), a discreet case of the [Central Limit Theorem](https://youtu.be/hgtMWR3TFnY),CLT, in R4.0.
+
+The CLT says, for a large $n$, this normalized variable, $\frac{\bar X_n - \mu}{\sigma / \sqrt{n}}$ is almost normally distributed with a
+`mean of 0 and variance of 1`: 
+
+\[
+\frac{\bar X_n - \mu}{\sigma / \sqrt{n}} = 
+    \frac{\mbox{Estimate} - \mbox{Mean of estimate}}{\mbox{Std. Err. of estimate}}.
+\]
+
+The hypothesis tested, was that `the sampling distribution of exponential distribution has a normal distribution with a mean that matches the population mean and a variance that matches the theoretical result`. It was found that for the exponential distribution generated the true mean that matches the population mean and a variance that matches the theoretical result in addition the distributions have similar means at the quantiles: 5%, 25%, 50% , 75%  and 95%. 
+
+
+```{r,  R_environment}
+#R4.0 Environmental Set for:
+library(knitr) # creating a pdf document ; 
+library(ggplot2) # making plots
+library(dplyr) #exploring data
+library(DataExplorer) # creating reports
+```
+
+
+### Exponential Distribution Simulation: 
+
+A discreet case of the CLT, 1000 trials were simulated in with the R function `rexp(n, lambda)` where lambda,  $\lambda$ , was set to 0.2, this is the rate parameter. The mean & the standard deviation of an exponential distribution is  1/$\lambda$ , for $n$ = 40. Data was then explored with glimpse() and summary().
+
+*create, explore & plot data*
+A pseudo-random number generator was used so that the exercise is replicable,data was explored with the dplyr and DataExplorer libraries from [CRAN](https://cran.r-project.org/web/packages/available_packages_by_date.html).
+
+```{r, create_explore_plot_data}
+set.seed(42); 
+lambda <- 0.2; 
+nosim <- 1000; n <- 40 ; 
+SimulationMatrix_1 <- matrix(rexp(nosim * n, rate = lambda), nosim); 
+Data_SM1 <- apply(SimulationMatrix_1, 1, mean); 
+print("Here is a glimpse of the data:Data_SM1"); glimpse(Data_SM1); 
+print("and a basic data summary:Data_SM1"); 
+summary(Data_SM1)
+
+```
+
+
+```{r, PlotData,  fig.width = 10, fig.height = 6, fig.asp = .618}
+#create_report(Data_SM1), the histogram is interesting
+plot(Data_SM1)
+
+```
+
+
+*Mean vs True Mean*
+We can get the mean of the data with mean() and the theoretical mean is 1/$\lambda$.
+
+```{r, MeanvsTrueMeam }
+mean_Data <-mean(Data_SM1); print("The mean of the data, the true mean: ") ; 
+mean_Data; 
+TheoMean <- 1/lambda ; 
+print("is is close to the theoretical mean: "); 
+TheoMean
+```
+
+After taking a peak at the report generated with create_report(), we see that the histogram has a bell shaped curve it looks like a normal distribution.
+
+```{r, HistogramDatav,  fig.width = 10, fig.height = 6, fig.asp = .618}
+#create_report(Data_SM1), the histogram is interesting
+hist(Data_SM1)
+
+```
+
+
+*True variance vs Theoretical variance*
+We can get the variance of the data by using the result of the sd() function squared and the  theoretical value is $\sigma2n$ = 1/$\lambda^2n$.
+
+```{r, VariancevsTrueVariance}
+Variance_Data <- sd(Data_SM1)^2 ; 
+print("The variance of the data is: "); 
+Variance_Data
+TheoVar <- 1/((lambda^2)*n); 
+print("is close to the theoretical variance: "); 
+TheoVar
+```
+
+*Comparing Distributions*
+The easiest way to compare the data vs theoretical distributions would be to use the qnorn() function to get the normal distributions and quantile() to get the quantiles of the data then compare the true vs theoretical values.
+
+```{r, DatavsCTL}
+
+# First lets create a vector of useful quantiles
+Quantiles_DatavsTheo <-c(0.05, 0.25, 0.5, 0.75, 0.95);
+print("The distribution of quantiles, for the data:"); 
+quantile(Data_SM1,  Quantiles_DatavsTheo); 
+print("is close to the theoretical quantiles:"); 
+qnorm(Quantiles_DatavsTheo, mean = mean(Data_SM1), sd = sd(Data_SM1))
+```
+
+*Summary*
+So we see that for the exponential distribution generated above the true mean matches the population mean and it has a variance that matches the theoretical result and that the distribution has similar means at the quantiles: 5%, 25%, 50% , 75%  and 95% as the theoretical means at the same quantiles.
+
+
+
+*After-note:* 
+
+- This is an [R Markdown document](http://rmarkdown.rstudio.com),created as a submission
+for the Statistical [Inference Course by Johns Hopkins University on Coursera](https://www.coursera.org/specializations/jhu-data-science). 
+
+
+
+
+
+
