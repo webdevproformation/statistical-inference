@@ -52,10 +52,10 @@ Statistical Inference, with R, navigated the entire data science pipeline from d
 <img src="https://github.com/lindangulopez/statistical-inference/blob/master/(7)%20Statistical%20methods%20for%20dealing%20with%20large%20&%20small%20datasets%20_%20LinkedIn_files/Github8.png?raw=true" alt="rpubs" >
 </a>
 
-[]()
+[Power Basics](https://rpubs.com/lindangulopez/707985)
 
-<a href="https://rpubs.com/lindangulopez/708518">
-<img src="" alt="rpubs" >
+<a href="https://rpubs.com/lindangulopez/707985">
+<img src="https://github.com/lindangulopez/statistical-inference/blob/master/(7)%20Statistical%20methods%20for%20dealing%20with%20large%20&%20small%20datasets%20_%20LinkedIn_files/Github15.png?raw=true" alt="rpubs" >
 </a>
 
 []()
