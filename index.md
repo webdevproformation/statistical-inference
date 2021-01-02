@@ -3,7 +3,7 @@
 <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 
 
-Statistical Inference, with R, navigated the entire data science pipeline from data acquisition to publication with [Brian Caffo](http://leanpub.com/LittleInferenceBook)
+Statistical Inference, with R, navigated the entire data science pipeline from data acquisition to publication with [Brian Caffo](http://leanpub.com/LittleInferenceBook) & [Roger D. Peng](https://leanpub.com/rprogramming/read_full)
 
 ## [Statistical methods for dealing with large & small datasets](https://www.linkedin.com/pulse/statistical-methods-dealing-large-small-datasets-linda-angulo-l%25C3%25B3pez/?trackingId=1RkWlrrVShmC6O7%2Fu9Yyow%3D%3D)
 
@@ -99,8 +99,12 @@ Statistical Inference, with R, navigated the entire data science pipeline from d
 
 [T Confidence Intervals](https://rpubs.com/lindangulopez/701275)
 
-<a href="ttps://rpubs.com/lindangulopez/701275">
+<a href="https://rpubs.com/lindangulopez/701275">
 <img src="https://github.com/lindangulopez/statistical-inference/blob/master/(7)%20Statistical%20methods%20for%20dealing%20with%20large%20&%20small%20datasets%20_%20LinkedIn_files/Github21.png?raw=true" alt="rpubs" ">
+</a>
+
+<a href="https://lindangulopez.github.io/">
+<img src="https://raw.githubusercontent.com/lindangulopez/graphic-design-social-media-marketing/main/graphic-design/Assignment1/FinalImages/Apple1.png" alt="icon" ">
 </a>
 
 [![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://www.linkedin.com/in/lindangulopez/)
