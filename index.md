@@ -60,15 +60,15 @@ Statistical Inference, with R, navigated the entire data science pipeline from d
 <img src="https://github.com/lindangulopez/statistical-inference/blob/master/(7)%20Statistical%20methods%20for%20dealing%20with%20large%20&%20small%20datasets%20_%20LinkedIn_files/Github15.png?raw=true" alt="rpubs" >
 </a>
 
-[Practice Exercises, S p & CI](https://rpubs.com/lindangulopez/703040)
+[Practice Exercises, S_p & CI](https://rpubs.com/lindangulopez/703040)
 
 <a href="https://rpubs.com/lindangulopez/703040">
 <img src="https://github.com/lindangulopez/statistical-inference/blob/master/(7)%20Statistical%20methods%20for%20dealing%20with%20large%20&%20small%20datasets%20_%20LinkedIn_files/Github16.png?raw=true" alt="rpubs" >
 </a>
 
-[]()
+[How to generate & interpret p-values](https://rpubs.com/lindangulopez/702767)
 
-<a href="https://rpubs.com/lindangulopez/708518">
+<a href="https://rpubs.com/lindangulopez/702767">
 <img src="" alt="rpubs" >
 </a>
 
@@ -81,7 +81,7 @@ Statistical Inference, with R, navigated the entire data science pipeline from d
 []()
 
 <a href="https://rpubs.com/lindangulopez/708518">
-<img src="" alt="rpubs" >
+<img src="https://github.com/lindangulopez/statistical-inference/blob/master/(7)%20Statistical%20methods%20for%20dealing%20with%20large%20&%20small%20datasets%20_%20LinkedIn_files/Github17.png?raw=true" alt="rpubs" >
 </a>
 
 []()
