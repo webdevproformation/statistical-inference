@@ -17,7 +17,8 @@ Statistical Inference, with R, navigated the entire data science pipeline from d
 
 (ii) a [basic inferential data analysis](https://rpubs.com/lindangulopez/709101)
 
-### Other Publications on rpubs: 
+### Other Publications on rpubs 
+
 [The Central Limit Theorem, a Swiss Army Knife of Statistics](https://rpubs.com/lindangulopez/708518)
 
 <a href="https://rpubs.com/lindangulopez/708518">
@@ -99,7 +100,7 @@ Statistical Inference, with R, navigated the entire data science pipeline from d
 [T Confidence Intervals](https://rpubs.com/lindangulopez/701275)
 
 <a href="ttps://rpubs.com/lindangulopez/701275">
-<img src="https://github.com/lindangulopez/statistical-inference/blob/master/(7)%20Statistical%20methods%20for%20dealing%20with%20large%20&%20small%20datasets%20_%20LinkedIn_files/Github21.png?raw=true" alt="rpubs" style="width:42px;height:42px;">
+<img src="https://github.com/lindangulopez/statistical-inference/blob/master/(7)%20Statistical%20methods%20for%20dealing%20with%20large%20&%20small%20datasets%20_%20LinkedIn_files/Github21.png?raw=true" alt="rpubs" ">
 </a>
 
 [![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://www.linkedin.com/in/lindangulopez/)
