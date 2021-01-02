@@ -1,0 +1,1 @@
+[Statistical methods for dealing with large & small datasets](https://www.linkedin.com/pulse/statistical-methods-dealing-large-small-datasets-linda-angulo-l%25C3%25B3pez/?trackingId=1RkWlrrVShmC6O7%2Fu9Yyow%3D%3D)
