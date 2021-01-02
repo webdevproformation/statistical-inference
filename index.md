@@ -104,11 +104,6 @@ Statistical Inference, with R, navigated the entire data science pipeline from d
 </a>
 
 
-
-<a href="https://lindangulopez.github.io/">
-<img src="https://raw.githubusercontent.com/lindangulopez/graphic-design-social-media-marketing/main/graphic-design/Assignment1/FinalImages/Apple1.png" alt="icon" ">
-</a>
-
 [![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://www.linkedin.com/in/lindangulopez/)
 *English C2, French C1, Afrikaans, B2, Spanish A2*
 
