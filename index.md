@@ -1,7 +1,7 @@
 <script type="text/javascript"> function googleTranslateElementInit() { new google.translate.TranslateElement({pageLanguage: 'en'}, 'google_translate_element'); } </script> <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 
 
-Statistical Inference, with R, Navigated the entire data science pipeline from data acquisition to publication with [Brian Caffo](http://leanpub.com/LittleInferenceBook)
+Statistical Inference, with R, navigated the entire data science pipeline from data acquisition to publication with [Brian Caffo](http://leanpub.com/LittleInferenceBook)
 
 ## [Statistical methods for dealing with large & small datasets](https://www.linkedin.com/pulse/statistical-methods-dealing-large-small-datasets-linda-angulo-l%25C3%25B3pez/?trackingId=1RkWlrrVShmC6O7%2Fu9Yyow%3D%3D)
 
@@ -46,10 +46,10 @@ Statistical Inference, with R, Navigated the entire data science pipeline from d
 <img src="https://github.com/lindangulopez/statistical-inference/blob/master/(7)%20Statistical%20methods%20for%20dealing%20with%20large%20&%20small%20datasets%20_%20LinkedIn_files/Github14.png?raw=true" alt="rpubs" >
 </a>
 
-[]()
+[multiple-comparisons](https://rpubs.com/lindangulopez/708163)
 
-<a href="https://rpubs.com/lindangulopez/708518">
-<img src="" alt="rpubs" >
+<a href="https://rpubs.com/lindangulopez/708163">
+<img src="https://github.com/lindangulopez/statistical-inference/blob/master/(7)%20Statistical%20methods%20for%20dealing%20with%20large%20&%20small%20datasets%20_%20LinkedIn_files/Github8.png?raw=true" alt="rpubs" >
 </a>
 
 []()
