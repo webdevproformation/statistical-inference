@@ -98,7 +98,14 @@ Statistical Inference, with R, navigated the entire data science pipeline from d
 
 [T Confidence Intervals](https://rpubs.com/lindangulopez/701275)
 
-<a href="">
+<a href="ttps://rpubs.com/lindangulopez/701275">
 <img src="https://github.com/lindangulopez/statistical-inference/blob/master/(7)%20Statistical%20methods%20for%20dealing%20with%20large%20&%20small%20datasets%20_%20LinkedIn_files/Github21.png?raw=true" alt="rpubs" style="width:42px;height:42px;">
 </a>
 
+[![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://www.linkedin.com/in/lindangulopez/)
+*English C2, French C1, Afrikaans, B2, Spanish A2*
+
+<h3><a href="https://lindangulopez.github.io/">Linda Angulo Lopez</a></h3>
+[7022Z - 51168006800018  - FR84511680068 ](https://www.linkedin.com/in/lindangulopez/)
+- consultation fees from 50€/hr
+- full deployment scheduled, June 2020
