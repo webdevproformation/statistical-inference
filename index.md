@@ -100,8 +100,10 @@ Statistical Inference, with R, navigated the entire data science pipeline from d
 [T Confidence Intervals](https://rpubs.com/lindangulopez/701275)
 
 <a href="https://rpubs.com/lindangulopez/701275">
-<img src="https://raw.githubusercontent.com/lindangulopez/statistical-inference/master/(7)%20Statistical%20methods%20for%20dealing%20with%20large%20%26%20small%20datasets%20_%20LinkedIn_files/Github21.png" alt="rpubs" ">
+<img src="https://raw.githubusercontent.com/lindangulopez/statistical-inference/master/(7)%20Statistical%20methods%20for%20dealing%20with%20large%20%26%20small%20datasets%20_%20LinkedIn_files/Github21.png" alt="rpubs" >
 </a>
+
+
 
 <a href="https://lindangulopez.github.io/">
 <img src="https://raw.githubusercontent.com/lindangulopez/graphic-design-social-media-marketing/main/graphic-design/Assignment1/FinalImages/Apple1.png" alt="icon" ">
