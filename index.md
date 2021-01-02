@@ -1,4 +1,6 @@
-<script type="text/javascript"> function googleTranslateElementInit() { new google.translate.TranslateElement({pageLanguage: 'en'}, 'google_translate_element'); } </script> <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+<script type="text/javascript"> function googleTranslateElementInit() { new google.translate.TranslateElement({pageLanguage: 'en'}, 'google_translate_element'); } </script>
+
+<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 
 
 Statistical Inference, with R, navigated the entire data science pipeline from data acquisition to publication with [Brian Caffo](http://leanpub.com/LittleInferenceBook)
@@ -58,10 +60,10 @@ Statistical Inference, with R, navigated the entire data science pipeline from d
 <img src="https://github.com/lindangulopez/statistical-inference/blob/master/(7)%20Statistical%20methods%20for%20dealing%20with%20large%20&%20small%20datasets%20_%20LinkedIn_files/Github15.png?raw=true" alt="rpubs" >
 </a>
 
-[]()
+[Practice Exercises, S p & CI](https://rpubs.com/lindangulopez/703040)
 
-<a href="https://rpubs.com/lindangulopez/708518">
-<img src="" alt="rpubs" >
+<a href="https://rpubs.com/lindangulopez/703040">
+<img src="https://github.com/lindangulopez/statistical-inference/blob/master/(7)%20Statistical%20methods%20for%20dealing%20with%20large%20&%20small%20datasets%20_%20LinkedIn_files/Github16.png?raw=true" alt="rpubs" >
 </a>
 
 []()
