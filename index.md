@@ -3,7 +3,7 @@ Statistical Inference, with R, Navigated the entire data science pipeline from d
 ## [Statistical methods for dealing with large & small datasets](https://www.linkedin.com/pulse/statistical-methods-dealing-large-small-datasets-linda-angulo-l%25C3%25B3pez/?trackingId=1RkWlrrVShmC6O7%2Fu9Yyow%3D%3D)
 
 <a href="https://rpubs.com/lindangulopez/708518">
-<img src="https://github.com/lindangulopez/statistical-inference/blob/master/(7)%20Statistical%20methods%20for%20dealing%20with%20large%20&%20small%20datasets%20_%20LinkedIn_files/Github.png?raw=true" alt="https://xkcd.com/1132/" style="width:42px;height:42px;">
+<img src="https://github.com/lindangulopez/statistical-inference/blob/master/(7)%20Statistical%20methods%20for%20dealing%20with%20large%20&%20small%20datasets%20_%20LinkedIn_files/Github.png?raw=true" alt="https://xkcd.com/1132/" style="width:80%, float:left">
 </a>
 
 ### FINAL PROJECT : consists of two parts 
@@ -16,13 +16,13 @@ Statistical Inference, with R, Navigated the entire data science pipeline from d
 [The Central Limit Theorem, a Swiss Army Knife of Statistics](https://rpubs.com/lindangulopez/708518)
 
 <a href="https://rpubs.com/lindangulopez/708518">
-<img src="https://github.com/lindangulopez/statistical-inference/blob/master/(7)%20Statistical%20methods%20for%20dealing%20with%20large%20&%20small%20datasets%20_%20LinkedIn_files/Github2.png?raw=true" alt="rpubs" style="width:42px;height:42px;">
+<img src="https://github.com/lindangulopez/statistical-inference/blob/master/(7)%20Statistical%20methods%20for%20dealing%20with%20large%20&%20small%20datasets%20_%20LinkedIn_files/Github2.png?raw=true" alt="rpubs" style="width:60%; float:left">
 </a>
 
 [Exponential Distribution Simulation Exercise](https://rpubs.com/lindangulopez/709073)
 
 <a href="https://rpubs.com/lindangulopez/709073">
-<img src="https://github.com/lindangulopez/statistical-inference/blob/master/(7)%20Statistical%20methods%20for%20dealing%20with%20large%20&%20small%20datasets%20_%20LinkedIn_files/Github3.png?raw=true" alt="rpubs" style="width:42px;height:42px;">
+<img src="https://github.com/lindangulopez/statistical-inference/blob/master/(7)%20Statistical%20methods%20for%20dealing%20with%20large%20&%20small%20datasets%20_%20LinkedIn_files/Github3.png?raw=true" alt="rpubs"  style="width:60%; float:left">
 </a>
 
 [Basic Inferential Data Analysis Exercise](https://rpubs.com/lindangulopez/709101)
@@ -34,13 +34,13 @@ Statistical Inference, with R, Navigated the entire data science pipeline from d
 [Power](https://rpubs.com/lindangulopez/708226)
 
 <a href="https://rpubs.com/lindangulopez/708226">
-<img src="https://github.com/lindangulopez/statistical-inference/blob/master/(7)%20Statistical%20methods%20for%20dealing%20with%20large%20&%20small%20datasets%20_%20LinkedIn_files/Github7.png?raw=true" alt="rpubs" style="width:42px;height:42px;">
+<img src="https://github.com/lindangulopez/statistical-inference/blob/master/(7)%20Statistical%20methods%20for%20dealing%20with%20large%20&%20small%20datasets%20_%20LinkedIn_files/Github7.png?raw=true" alt="rpubs"  style="width:60%; float:left">
 </a>
 
 [Bootstrap in action](https://rpubs.com/lindangulopez/708181)
 
 <a href="https://rpubs.com/lindangulopez/708518">
-<img src="https://github.com/lindangulopez/statistical-inference/blob/master/(7)%20Statistical%20methods%20for%20dealing%20with%20large%20&%20small%20datasets%20_%20LinkedIn_files/Github14.png?raw=true" alt="rpubs" style="width:42px;height:42px;">
+<img src="https://github.com/lindangulopez/statistical-inference/blob/master/(7)%20Statistical%20methods%20for%20dealing%20with%20large%20&%20small%20datasets%20_%20LinkedIn_files/Github14.png?raw=true" alt="rpubs"  style="width:60%; float:left">
 </a>
 
 []()
