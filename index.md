@@ -31,9 +31,9 @@ Statistical Inference, with R, Navigated the entire data science pipeline from d
 <img src="https://github.com/lindangulopez/statistical-inference/blob/master/(7)%20Statistical%20methods%20for%20dealing%20with%20large%20&%20small%20datasets%20_%20LinkedIn_files/Github6.png?raw=true" alt="rpubs" style="width:42px;height:42px;">
 </a>
 
-[]()
-<a href="https://rpubs.com/lindangulopez/708518">
-<img src="" alt="rpubs" style="width:42px;height:42px;">
+[Power](https://rpubs.com/lindangulopez/708226)
+<a href="https://rpubs.com/lindangulopez/708226">
+<img src="https://github.com/lindangulopez/statistical-inference/blob/master/(7)%20Statistical%20methods%20for%20dealing%20with%20large%20&%20small%20datasets%20_%20LinkedIn_files/Github7.png?raw=true" alt="rpubs" style="width:42px;height:42px;">
 </a>
 
 []()
