@@ -69,7 +69,7 @@ Statistical Inference, with R, navigated the entire data science pipeline from d
 [How to generate & interpret p-values](https://rpubs.com/lindangulopez/702767)
 
 <a href="https://rpubs.com/lindangulopez/702767">
-<img src="" alt="rpubs" >
+<img src="https://github.com/lindangulopez/statistical-inference/blob/master/(7)%20Statistical%20methods%20for%20dealing%20with%20large%20&%20small%20datasets%20_%20LinkedIn_files/Github9.png?raw=true" alt="rpubs" >
 </a>
 
 [Making decisions about populations using observed data.](https://rpubs.com/lindangulopez/702541)
@@ -78,10 +78,10 @@ Statistical Inference, with R, navigated the entire data science pipeline from d
 <img src="https://github.com/lindangulopez/statistical-inference/blob/master/(7)%20Statistical%20methods%20for%20dealing%20with%20large%20&%20small%20datasets%20_%20LinkedIn_files/Github3.png?raw=true" alt="rpubs" >
 </a>
 
-[Statistical methods for dealing with large & small datasets.]()
+[Statistical methods for dealing with large & small datasets.](https://rpubs.com/lindangulopez/702246)
 
-<a href="https://rpubs.com/lindangulopez/708518">
-<img src="https://github.com/lindangulopez/statistical-inference/blob/master/(7)%20Statistical%20methods%20for%20dealing%20with%20large%20&%20small%20datasets%20_%20LinkedIn_files/Github18.png?raw=true" alt="rpubs" >
+<a href="https://rpubs.com/lindangulopez/702246">
+<img src="https://github.com/lindangulopez/statistical-inference/blob/master/(7)%20Statistical%20methods%20for%20dealing%20with%20large%20&%20small%20datasets%20_%20LinkedIn_files/Github19.png?raw=true" alt="rpubs" >
 </a>
 
 []()
