@@ -5,9 +5,9 @@ author: "Linda Angulo Lopez"
 job: Sustainability Hacker
 date: "02/01/2021"
 output:
-  beamer_presentation: default
-  ioslides_presentation: default
   powerpoint_presentation: default
+  ioslides_presentation: default
+  beamer_presentation: default
   slidy_presentation: default
 fig_width: 7
 fig_height: 3
@@ -29,32 +29,83 @@ library(reshape2) # data frames
 
 ```
 
-_library(knitr)_ creating slides
 
-_library(ggplot2)_ making plots
 
-_library(reshape2)_ # for data frames
+
+
+
+_library(knitr)_ # creating slides
+
+_library(ggplot2)_ # making plots
+
+_library(reshape2)_ # handling data frames
+
+
+# CASE: [Respiratory Distress Index and Sleep Disturbances](https://www.coursera.org/specializations/jhu-data-science#courses)
+
+
+
+
+:: $H_0$    is     $\mu_0$ = 30 
+
+:: $H_a$    is     $\mu_a$ > 30
+
+
+## [Central Theory Limit](https://lindangulopez.github.io/statistical-inference/)
+
+Where (X'-30)/($s$/$\sqrt(n)$) measures the number of standard 
+
+errors the sample mean is from the mean hypothesized by $H_0$
+
+and the denominator, ($s$/$\sqrt(n)$) is the standard error of 
+
+the sample mean.
+
+
+
+## PS: if $H_a$ specified that $\mu_a$ < $\mu_0$
+
+
+
+:: flip the following reasoning
+
+:: look at the right tail
 
 
 
 ## POWER
 
-Power is the probability of rejecting the NULL HYPOTHESIS 
-when it is false. 
 
 
-:: Power is used to determine if your sample size was big enough
-to yield a meaningful, rather than random, result
+Power is the probability of rejecting the NULL HYPOTHESIS
 
-:: Detect if your ALTERNATIVE hypothesis is true, to lower the 
-risk of a Type II errors.
+$H_0$, when it is false. 
+
+
+
+:: Used to determine if your sample size was big enough
+
+to yield a meaningful, rather than random result
+
+
+
+
+:: Detect if your ALTERNATIVE HYPOTHESIS, $H_a$ is true, 
+
+to lower the risk of a Type II errors.
 
 
 ## Equation
 
-As beta is the probability of a _Type II error, for accepting_ 
-_a false null hypothesis_, and the complement of this is 
-(1-$\beta$), the power is:
+
+
+
+
+As beta, $\beta$, is the probability of a _Type II error,_
+
+for accepting a false null hypothesis, then the complement 
+
+of this the power is (1-$\beta$).
 
 
 \[
@@ -63,28 +114,41 @@ P =
 \]
 
 
-## Sleep Example
+## Do you remember this ... ?
 
-:: H_0  mu = 30 
 
-:: H_a  mu > 30
 
-where (X'-30)/(s/$\sqrt(n)$) measures the number of standard 
-errors the sample mean is from the mean hypothesized by H_0
-and the denominator, (s/$\sqrt(n)$) is the standard error of 
-the sample mean.
+
+:: As $\mu_a$ gets bigger, the test gets more powerful
+
+:: As $n$ gets bigger, the test gets more powerful
+
+:: Power decreases with increases in variation
+
+:: As $\alpha$ increases, power increases
+
+:: In a one sided test the power is greater as $\alpha$ 
+
+is bigger than $\alpha$/2 
+
+
 
 ## Alpha
 
-Power is the probability that the true mean mu is greater 
-than the (1-$\alpha$) quantile
-
-:: if $\alpha$ = .05 and as H_a  mu > 30
 
 
-:: for normal distributions of which we know the variances:
+Power is the probability that the true mean $\mu$ is greater 
 
-P = qnorm(.95)
+than the (1-$\alpha$) quantile, in our sleep example:
+
+:: if $\alpha$ = .05 and as $H_a$  $\mu_a$ > 30
+
+
+:: for normal distributions of which we know the variances
+
+
+:: we make p = qnorm(.95) our reference
+
 
 ## When to reject H_0 ?
 
@@ -101,29 +165,37 @@ suppressWarnings(print(g))
 ```
 
 If a test statistic fell in the shaded portion, 5% of the 
-area under the curve, we would reject H_0 and favor H_a.
+area under the curve, we would reject $H_0$ in favor $H_a$.
 
 ## Two distributions
 
-The two hypotheses, H_0 and H_a, represent two distributions
+
+
+
+The two hypotheses, $H_0$ and $H_a$, represent two distributions
 
 :: since they're talking about means or 
 
 :: centers of distributions. 
 
 
-## Normal distributed 
+## [Normal distributed](https://math.stackexchange.com/questions/217176/normal-distribution-the-y-value#:~:text=the%20familiar%20%22bell%2Dshaped%22,1%E2%88%9A2%CF%80%CF%83.) 
+
+
+
 
 For a _random variable_ X which is distributed as _Normal_ 
-with a mean _mu_ (μ) and variance _sigma squared_ (σ2)
+
+with a mean _mu_, $\mu$ and variance _sigma squared_, $\sigma^2$:
 
 
-:: under H_0, X' \sim N($\mu_0$ , $\sigma^2$/n)
+:: under $H_0$,      X' is       \sim N($\mu_0$ , $\sigma^2$/n)
 
 
-:: under H_a, X' \sim N($\mu_a$ , $\sigma^2$/n)
+:: under $H_a$,      X' is       \sim N($\mu_a$ , $\sigma^2$/n)
 
-## 95th percentile of H_0, in red
+
+## 95th percentile of $H_0$, black vertical on the red plot
 
 ```{r twoDistros_Ho, fig.width = 7, fig.height =3, fig.asp = .618, warning=FALSE , message=FALSE, echo=FALSE}
 
@@ -145,7 +217,9 @@ with a mean _mu_ (μ) and variance _sigma squared_ (σ2)
   
 ```
 
-## Mean proposed by H_a, in blue
+
+
+## Mean proposed by $H_a$, peak of blue plot
 
 ```{r twoDistros_Ha, fig.width = 7, fig.height =3, fig.asp = .618, warning=FALSE , message=FALSE, echo=FALSE}
 
@@ -167,7 +241,10 @@ with a mean _mu_ (μ) and variance _sigma squared_ (σ2)
   
 ```
 
-## POWER is how far H_a is right of 95th percentile of H_0
+
+
+
+## Power is how far $H_a$ is from the right of 95th percentile of $H_0$
 
 ```{r twoDistros_HaHo, fig.width = 7, fig.height =3, fig.asp = .618, warning=FALSE , message=FALSE, echo=FALSE}
 
@@ -189,7 +266,7 @@ with a mean _mu_ (μ) and variance _sigma squared_ (σ2)
   
 ```
 
-## Power depends on the null distribution
+## Power depends on the null distribution's variance
 
 ```{r twoDistros_fat, fig.width = 7, fig.height =3, fig.asp = .618, warning=FALSE , message=FALSE, echo=FALSE}
 
@@ -211,16 +288,9 @@ with a mean _mu_ (μ) and variance _sigma squared_ (σ2)
   
 ```
 
-## If $\mu_a$ = 34, the test is more powerful
 
-The distribution represented by H_a will moved to the right, 
-almost all (100%) of the blue curve is to the right of the 
-vertical line, indicating that with $\mu_a$ = 34, the test 
-is more powerful, i.e., there's a higher probability that it's 
 
-:: correct to reject the null hypothesis since 
-it appears false. 
-
+## If $\mu_a$ = 34 > $\mu_0$ the test, $H_a$ is more powerful than $H_0$
 
 ```{r twoDistros_ma_34, fig.width = 7, fig.height =3, fig.asp = .618, warning=FALSE , message=FALSE, echo=FALSE}
 
@@ -242,15 +312,22 @@ it appears false.
   
 ```
 
-## If $\mu_a$ = 30, the power = $\alpha$
 
-The distribution represented by H_a will move under the blue 
-curve, indicating that with $\mu_a$ = 30 = $\mu_0$ 4, the test 
-is as powerful as the H_0.
+## If power is large, we can reject the null hypothesis
 
-:: in correct to reject the null hypothesis since 
-it appears not false. 
+The distribution represented by $H_a$ will moved to the right, 
 
+most of the blue curve is to the right of the vertical line, 
+
+indicating that with $\mu_a$ = 34, the test is more powerful, 
+
+so it is 
+
+:: correct to reject the $H_0$ as it appears to be false.
+
+
+
+## If $\mu_a$ = 30 = $\mu_0$ the power is at $\alpha$
 
 ```{r twoDistros_ma_30, fig.width = 7, fig.height =3, fig.asp = .618, warning=FALSE , message=FALSE, echo=FALSE}
 
@@ -272,13 +349,24 @@ it appears not false.
   
 ```
 
-## If $\mu_a$ = 28, the power is weaker
 
-The distribution represented by H_a will move to the left of 
-$\mu_0$ = 30, the area under the blue curve is less than the 
-5% so the test is less powerful and contradicts H_a.
 
-:: it's not worth looking at
+## If power is similar or equal to the 95th percentile of $H_0$, we cannot reject the null hypothesis
+
+The distribution represented by $H_a$, in the above graph 
+
+moved under the blue curve, indicating that with 
+
+:: $\mu_a$ = 30 = $\mu_0$ , the test, 
+
+:: $H_a$ is almost as powerful as $H_0$, so it is 
+
+:: incorrect to reject the null hypothesis since it does 
+
+not appear to be false. 
+
+
+## If $\mu_a$ = 28 < $\mu_0$ the test's power is weaker
 
 
 ```{r twoDistros_ma_28, fig.width = 7, fig.height =3, fig.asp = .618, warning=FALSE , message=FALSE, echo=FALSE}
@@ -301,30 +389,55 @@ $\mu_0$ = 30, the area under the blue curve is less than the
   
 ```
 
+## Not worth investigating
+
+
+
+
+The distribution represented by $H_a$ will move to the left of 
+
+$\mu_0$ = 30, the area under the blue curve is less than the 
+
+5% our $\alpha$, so the test is not only less powerful, it even 
+
+contradicts $H_a$
+
+:: it is therefore not worth looking into.
+
+
 
 ## RECAP
 
-Power is a function that depends on a specific value of 
-an alternative mean, mu_a, which is any value greater 
-than mu_0, the mean hypothesized by H_0.
 
-:: Recall that H_a specified mu > 30.
+
+
+Power is a function that depends on a specific value of an 
+
+alternative mean, $\mu_a$, which is any value greater than 
+
+$\mu_0$, the mean hypothesized by $H_0$
+
+
+:: Recall that H_a specified mu > 30, in the sleep case.
+
+
+
 
 ## RECAP
 
-If mu_a is much bigger than mu_0=30 then the power 
-(probability) is bigger than if mu_a is close to 30. 
 
-:: As mu_a approaches 30, the mean under H_0,
-the power approaches alpha.
 
-## RECAP
 
-:: As $\mu_a$ gets bigger, 
-it gets more powerful
+If $\mu_a$ is much bigger than $\mu_0$ = 30 then the power 
 
-:: As $n$ gets bigger, 
-it gets more powerful
+a probability, is bigger than if $\mu_a$ is close to 30. 
+
+
+:: As $\mu_a$ approaches 30, the mean under $H_0$, the power 
+
+approaches $\alpha$.
+
+
 
 ## Power Curves $n$
 
@@ -353,17 +466,24 @@ print(g)
 
 ```{r define_z, echo = TRUE}
 
+# mean=30
+
 z <- qnorm(.95)
 
 pnorm(30+z,mean=30,lower.tail=FALSE) 
 
 ```
-With the mean set to mu_0 the two distributions, 
-null and alternative, are the same and power=alpha.
+
+With the mean set to $\mu_0$ the two distributions, 
+
+null and alternative, are the same and power = $\alpha$ = 5%.
+
 
 ##  $\mu_a$ > $\mu_0$
 
 ```{r pnorm, echo = TRUE}
+
+#mean=32
 
 z <- qnorm(.95)
 
@@ -371,28 +491,24 @@ pnorm(30+z, mean=32,lower.tail=FALSE)
 
 ```
 
-With $\mu_a$ > $\mu_0$mu_a the power is at 64% as opposed to 5%.
+With $\mu_a$ > $\mu_0$mu_a the power is greater than $\alpha$, at 64%.
 
-:: When the sample mean is many standard errors greater than the 
-mean hypothesized by the null hypothesis, 
+:: When the sample mean is many standard errors greater than 
 
-:: the probability of rejecting H_0 when it is false is much higher. 
+the mean hypothesized by the null hypothesis, 
+
+:: the probability of rejecting $H_0$ is false is much higher. 
 
 ##  Standard deviation, sd
 
-when $sd$ = 1
-
 ```{r SE_1, echo = TRUE}
+# sd=1
 
 z <- qnorm(.95)
 
 pnorm(30+z, mean=32, sd= 1, lower.tail=FALSE) 
 
-```
-
-when $sd$ = 2
-
-```{r SE_2, echo = TRUE}
+# sd=2
 
 z <- qnorm(.95)
 
@@ -403,7 +519,7 @@ pnorm(30+z, mean=32, sd= 2, lower.tail=FALSE)
 :: Power decreases with increases in variation
 
 
-## Power Curves $\sigma$
+## Power Curves, $\sigma$
 
 ```{r PowerCurves_2, fig.width = 7, fig.height =3, fig.asp = .618, warning=FALSE , message=FALSE, echo=FALSE}
 
@@ -433,7 +549,7 @@ print(g)
 :: In a one sided test the power is greater as 
 $\alpha$ is bigger than $\alpha$/2
 
-## Power Curves $\alpha$
+## Power Curves, $\alpha$
 
 ```{r PowerCurves_3, fig.width = 7, fig.height =3, fig.asp = .618, warning=FALSE , message=FALSE, echo=FALSE}
 
@@ -455,43 +571,51 @@ print(g)
 ```
 
 
-## if H_a specified that $\mu$ < $\mu_0$
+# if H_a specified that $\mu_a$ < $\mu_0$
 
 :: flip the above reasoning
 
 :: look at the right tail
 
-## RECAP
+## Back to the sleep case
 
-Suppose H_a says that mu > mu_0. 
-:: power = 1 - beta 
+Assumed that X'~ N($\mu_a$, $\sigma^2/n$)
 
-= Prob ( X' > mu_0 +  z_(1-alpha) * sigma/sqrt(n)) 
+Supposed that $H_a$ says that $\mu$ > $\mu_0$
 
-assuming that X'~ N(mu_a,sigma^2/n). 
+:: As power = 1 - beta 
 
-:: given the context of the problem, ...
+= Prob ( X' > $\mu_0$ +  z_(1-$\alpha$) * $\sigma$/$\sqrt(n)$) 
 
-## for H_a says that mu > mu_0 we know 
+ 
+
+
+
+## When $H_a$ says that $\mu$ > $\mu_0$ we know 
 
 :: the population mean equals $\mu_0$
 
 :: the level size of the test is $\alpha$
 
 
-## $\beta$, $\sigma$, $n$, and $\mu_a$
 
-In the statement 1 - beta 
 
-= Prob( X' > mu_0 + z_(1-alpha) * sigma/sqrt(n)) 
+## We do not know $\beta$, $\sigma$, $n$, and $\mu_a$
 
-:: Given $\mu_a$ > $\mu_0$, $\mu_0$ and $\alpha$ are specified, 
+:: But are given $\mu_a$ > $\mu_0$, $\mu_0$ and $\alpha$ 
+
 :: and X' depends on the data. 
 
-:: The other four quantities, ($\beta$, $\sigma$, $n$,
-and $\mu_a$) are all unknown.
 
-## Solve for $P$ (power) or $n$ (sample size)
+#### So we can solve for the quantities $\beta$, $\sigma$, $n$,and $\mu_a$
+
+
+:: As power = 1 - beta 
+
+= Prob ( X' > $\mu_0$ +  z_(1-$\alpha$) * $\sigma$/$\sqrt(n)$) 
+
+
+## Solve for $P$, power or $n$, the sample size
 
 :: only $\sqrt(n)$ * $\frac{\mu_a - \mu_0}{\sigma}$ is needed
 
@@ -499,18 +623,26 @@ and $\mu_a$) are all unknown.
 
 
 ## Example: t distributions
+
+
 :: t quantile instead of the z
 
+
 Power is still a probability, namely 
+
 :: $\frac{P(X' - \mu_0)}{(S /\sqrt(n)}$ > t_(1-$\alpha$, $n$-1) 
-for H_a that mu > mu_a  
 
-:: the proposed distribution is not centered at mu_0,
-:: have to use the non-central t distribution.
+for $H_a$ that $\mu$ > $mu_a$  
 
-## R functipon power.t.test()
+
+:: the proposed distribution is not centered at $mu_0$,
+
+:: so we have to use the non-central t distribution.
+
+## R function power.t.test()
 
 :: omit one of the arguments and power.t.test()
+
 solves for it
 
 ```{r Rfun_power_t_test,  echo=TRUE }
@@ -526,13 +658,14 @@ power.t.test(n = 16, delta = 100 , sd=200, type = "one.sample",
 
 ```
 
-## Constant POWER
+## Constant Power
 
 :: keeping the effect size (the ratio delta/sd) constant preserved the power
 
 :: get a constant effect size with 
 
 _with the same values for n (16) & alpha (.05), but _
+
 _different delta and standard deviation values_
 
 
@@ -555,32 +688,45 @@ power.t.test(power = .8, delta = 100, sd=200, type = "one.sample",
 
 ## Solve for $\delta$ change $n$
 
-:: use power.t.test to find delta for a power=.8 and n=26 and sd=1
-
 ```{r Rfun_power_t_test3, echo = TRUE}
+# use power.t.test to find delta for a power=.8 and n=26 and sd=1
 
 power.t.test(power = .8, n=26, sd=1, type = "one.sample",  
              alt = "one.sided")$delta
-```
 
-
-:: use power.t.test to find delta for a power=.8 and n=27 and sd=1
-
-```{r Rfun_power_t_test4, echo = TRUE}
+#use power.t.test to find delta for a power=.8 and n=27 and sd=1
 
 power.t.test(power = .8, n=27, sd=1, type = "one.sample",  
              alt = "one.sided")$delta
 ```
 
+
 ## Solve for $\delta$ change $sd$
 
-:: use power.t.test to find delta for a power=.8 and n=26 and sd=2
-
-```{r Rfun_power_t_test5, echo = TRUE}
+```{r Rfun_power_t_test4, echo = TRUE}
+#use power.t.test to find delta for a power=.8 and n=26 and sd=2
 
 power.t.test(power = .8, n=26, sd=2, type = "one.sample",  
              alt = "one.sided")$delta
 ```
 
 
-[Plots from swirl repo](https://github.com/swirldev/swirl_courses)
+# [POWERful RECAP](https://www.coursera.org/learn/statistical-inference) 
+
+:: As $\mu_a$ gets bigger, the test gets more powerful
+
+:: As $n$ gets bigger, the test gets more powerful
+
+:: Power decreases with increases in variation
+
+:: As $\alpha$ increases, power increases, so 
+
+:: A one sided test has greater power 
+
+# @lindangulopez
+
+
+### [myCOURSERA notes:](https://www.coursera.org/specializations/jhu-data-science) 
+
+
+### [plots from swirl](https://swirlstats.com/)
