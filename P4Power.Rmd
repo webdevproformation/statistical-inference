@@ -1,0 +1,586 @@
+---
+title: "P for POWER"
+subtitle: Statistical Inference
+author: "Linda Angulo Lopez"
+job: Sustainability Hacker
+date: "02/01/2021"
+output:
+  beamer_presentation: default
+  ioslides_presentation: default
+  powerpoint_presentation: default
+  slidy_presentation: default
+fig_width: 7
+fig_height: 3
+widgets: mathjax
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## R4.0 Environment
+
+
+```{r,  R_environment, results='hide',  warning=FALSE , message=FALSE}
+#R4.0 Environmental Set for:
+library(knitr) # creating a pdf document ; 
+library(ggplot2) # making plots
+library(reshape2) # data frames
+
+```
+
+_library(knitr)_ creating slides
+
+_library(ggplot2)_ making plots
+
+_library(reshape2)_ # for data frames
+
+
+
+## POWER
+
+Power is the probability of rejecting the NULL HYPOTHESIS 
+when it is false. 
+
+
+:: Power is used to determine if your sample size was big enough
+to yield a meaningful, rather than random, result
+
+:: Detect if your ALTERNATIVE hypothesis is true, to lower the 
+risk of a Type II errors.
+
+
+## Equation
+
+As beta is the probability of a _Type II error, for accepting_ 
+_a false null hypothesis_, and the complement of this is 
+(1-$\beta$), the power is:
+
+
+\[
+P = 
+    (1-\beta)
+\]
+
+
+## Sleep Example
+
+:: H_0  mu = 30 
+
+:: H_a  mu > 30
+
+where (X'-30)/(s/$\sqrt(n)$) measures the number of standard 
+errors the sample mean is from the mean hypothesized by H_0
+and the denominator, (s/$\sqrt(n)$) is the standard error of 
+the sample mean.
+
+## Alpha
+
+Power is the probability that the true mean mu is greater 
+than the (1-$\alpha$) quantile
+
+:: if $\alpha$ = .05 and as H_a  mu > 30
+
+
+:: for normal distributions of which we know the variances:
+
+P = qnorm(.95)
+
+## When to reject H_0 ?
+
+
+```{r conf_5pct, fig.width = 7, fig.height =3, fig.asp = .618, warning=FALSE , message=FALSE, echo=FALSE}
+
+x <- seq(-4,4, length = 2000)
+dat <- data.frame(x=x, y=dnorm(x))
+g <- ggplot(dat, aes(x = x, y = y)) + geom_line(size = 1.5)+scale_y_continuous(limits=c(0,max(dat$y)))
+suppressWarnings(g <- g+ layer("area", stat="identity", position="identity",mapping = aes(x=ifelse(x>qnorm(.95),x,NA)),
+            params=list(fill="red",alpha=.5, na.rm=TRUE))) 
+#suppressWarnings(g <- g + geom_line(x=2.0,size=1.5,colour="blue"))
+suppressWarnings(print(g))
+```
+
+If a test statistic fell in the shaded portion, 5% of the 
+area under the curve, we would reject H_0 and favor H_a.
+
+## Two distributions
+
+The two hypotheses, H_0 and H_a, represent two distributions
+
+:: since they're talking about means or 
+
+:: centers of distributions. 
+
+
+## Normal distributed 
+
+For a _random variable_ X which is distributed as _Normal_ 
+with a mean _mu_ (μ) and variance _sigma squared_ (σ2)
+
+
+:: under H_0, X' \sim N($\mu_0$ , $\sigma^2$/n)
+
+
+:: under H_a, X' \sim N($\mu_a$ , $\sigma^2$/n)
+
+## 95th percentile of H_0, in red
+
+```{r twoDistros_Ho, fig.width = 7, fig.height =3, fig.asp = .618, warning=FALSE , message=FALSE, echo=FALSE}
+
+  mua <- 32
+  mu0 <- 30
+  sigma <- 4
+  n <- 16
+  alpha <- .05
+  g = ggplot(data.frame(mu = c(27, 36)), aes(x = mu))
+  g = g + stat_function(fun=dnorm, geom = "line", 
+                        args = list(mean = mu0, sd = sigma / sqrt(n)), 
+                        size = 2, col = "red")
+  g = g + stat_function(fun=dnorm, geom = "line", 
+                        args = list(mean = mua, sd = sigma / sqrt(n)), 
+                        size = 2, col = "blue")
+  xitc = mu0 + qnorm(1 - alpha) * sigma / sqrt(n)
+  g = g + geom_vline(xintercept=xitc, size = 3)
+  print(g)
+  
+```
+
+## Mean proposed by H_a, in blue
+
+```{r twoDistros_Ha, fig.width = 7, fig.height =3, fig.asp = .618, warning=FALSE , message=FALSE, echo=FALSE}
+
+  mua <- 32
+  mu0 <- 30
+  sigma <- 4
+  n <- 16
+  alpha <- .05
+  g = ggplot(data.frame(mu = c(27, 36)), aes(x = mu))
+  g = g + stat_function(fun=dnorm, geom = "line", 
+                        args = list(mean = mu0, sd = sigma / sqrt(n)), 
+                        size = 2, col = "red")
+  g = g + stat_function(fun=dnorm, geom = "line", 
+                        args = list(mean = mua, sd = sigma / sqrt(n)), 
+                        size = 2, col = "blue")
+  xitc = mu0 + qnorm(1 - alpha) * sigma / sqrt(n)
+  g = g + geom_vline(xintercept=xitc, size = 3)
+  print(g)
+  
+```
+
+## POWER is how far H_a is right of 95th percentile of H_0
+
+```{r twoDistros_HaHo, fig.width = 7, fig.height =3, fig.asp = .618, warning=FALSE , message=FALSE, echo=FALSE}
+
+  mua <- 32
+  mu0 <- 30
+  sigma <- 4
+  n <- 16
+  alpha <- .05
+  g = ggplot(data.frame(mu = c(27, 36)), aes(x = mu))
+  g = g + stat_function(fun=dnorm, geom = "line", 
+                        args = list(mean = mu0, sd = sigma / sqrt(n)), 
+                        size = 2, col = "red")
+  g = g + stat_function(fun=dnorm, geom = "line", 
+                        args = list(mean = mua, sd = sigma / sqrt(n)), 
+                        size = 2, col = "blue")
+  xitc = mu0 + qnorm(1 - alpha) * sigma / sqrt(n)
+  g = g + geom_vline(xintercept=xitc, size = 3)
+  print(g)
+  
+```
+
+## Power depends on the null distribution
+
+```{r twoDistros_fat, fig.width = 7, fig.height =3, fig.asp = .618, warning=FALSE , message=FALSE, echo=FALSE}
+
+  mua <- 32
+  mu0 <- 30
+  sigma_fat <-8
+  n <- 16
+  alpha <- .05
+  g = ggplot(data.frame(mu = c(27, 36)), aes(x = mu))
+  g = g + stat_function(fun=dnorm, geom = "line", 
+                        args = list(mean = mu0, sd = sigma_fat / sqrt(n)), 
+                        size = 2, col = "red")
+  g = g + stat_function(fun=dnorm, geom = "line", 
+                        args = list(mean = mua, sd = sigma_fat / sqrt(n)), 
+                        size = 2, col = "blue")
+  xitc = mu0 + qnorm(1 - alpha) * sigma_fat / sqrt(n)
+  g = g + geom_vline(xintercept=xitc, size = 3)
+  print(g)
+  
+```
+
+## If $\mu_a$ = 34, the test is more powerful
+
+The distribution represented by H_a will moved to the right, 
+almost all (100%) of the blue curve is to the right of the 
+vertical line, indicating that with $\mu_a$ = 34, the test 
+is more powerful, i.e., there's a higher probability that it's 
+
+:: correct to reject the null hypothesis since 
+it appears false. 
+
+
+```{r twoDistros_ma_34, fig.width = 7, fig.height =3, fig.asp = .618, warning=FALSE , message=FALSE, echo=FALSE}
+
+  mua <- 34
+  mu0 <- 30
+  sigma_fat <-8
+  n <- 16
+  alpha <- .05
+  g = ggplot(data.frame(mu = c(27, 36)), aes(x = mu))
+  g = g + stat_function(fun=dnorm, geom = "line", 
+                        args = list(mean = mu0, sd = sigma_fat / sqrt(n)), 
+                        size = 2, col = "red")
+  g = g + stat_function(fun=dnorm, geom = "line", 
+                        args = list(mean = mua, sd = sigma_fat / sqrt(n)), 
+                        size = 2, col = "blue")
+  xitc = mu0 + qnorm(1 - alpha) * sigma_fat / sqrt(n)
+  g = g + geom_vline(xintercept=xitc, size = 3)
+  print(g)
+  
+```
+
+## If $\mu_a$ = 30, the power = $\alpha$
+
+The distribution represented by H_a will move under the blue 
+curve, indicating that with $\mu_a$ = 30 = $\mu_0$ 4, the test 
+is as powerful as the H_0.
+
+:: in correct to reject the null hypothesis since 
+it appears not false. 
+
+
+```{r twoDistros_ma_30, fig.width = 7, fig.height =3, fig.asp = .618, warning=FALSE , message=FALSE, echo=FALSE}
+
+  mua <- 30
+  mu0 <- 30
+  sigma_fat <-8
+  n <- 16
+  alpha <- .05
+  g = ggplot(data.frame(mu = c(27, 36)), aes(x = mu))
+  g = g + stat_function(fun=dnorm, geom = "line", 
+                        args = list(mean = mu0, sd = sigma_fat / sqrt(n)), 
+                        size = 2, col = "red")
+  g = g + stat_function(fun=dnorm, geom = "line", 
+                        args = list(mean = mua, sd = sigma_fat / sqrt(n)), 
+                        size = 2, col = "blue")
+  xitc = mu0 + qnorm(1 - alpha) * sigma_fat / sqrt(n)
+  g = g + geom_vline(xintercept=xitc, size = 3)
+  print(g)
+  
+```
+
+## If $\mu_a$ = 28, the power is weaker
+
+The distribution represented by H_a will move to the left of 
+$\mu_0$ = 30, the area under the blue curve is less than the 
+5% so the test is less powerful and contradicts H_a.
+
+:: it's not worth looking at
+
+
+```{r twoDistros_ma_28, fig.width = 7, fig.height =3, fig.asp = .618, warning=FALSE , message=FALSE, echo=FALSE}
+
+  mua <- 28
+  mu0 <- 30
+  sigma_fat <-8
+  n <- 16
+  alpha <- .05
+  g = ggplot(data.frame(mu = c(27, 36)), aes(x = mu))
+  g = g + stat_function(fun=dnorm, geom = "line", 
+                        args = list(mean = mu0, sd = sigma_fat / sqrt(n)), 
+                        size = 2, col = "red")
+  g = g + stat_function(fun=dnorm, geom = "line", 
+                        args = list(mean = mua, sd = sigma_fat / sqrt(n)), 
+                        size = 2, col = "blue")
+  xitc = mu0 + qnorm(1 - alpha) * sigma_fat / sqrt(n)
+  g = g + geom_vline(xintercept=xitc, size = 3)
+  print(g)
+  
+```
+
+
+## RECAP
+
+Power is a function that depends on a specific value of 
+an alternative mean, mu_a, which is any value greater 
+than mu_0, the mean hypothesized by H_0.
+
+:: Recall that H_a specified mu > 30.
+
+## RECAP
+
+If mu_a is much bigger than mu_0=30 then the power 
+(probability) is bigger than if mu_a is close to 30. 
+
+:: As mu_a approaches 30, the mean under H_0,
+the power approaches alpha.
+
+## RECAP
+
+:: As $\mu_a$ gets bigger, 
+it gets more powerful
+
+:: As $n$ gets bigger, 
+it gets more powerful
+
+## Power Curves $n$
+
+```{r PowerCurves_1, fig.width = 7, fig.height =3, fig.asp = .618, warning=FALSE , message=FALSE, echo=FALSE}
+
+z <- qnorm(.95)
+
+nseq = c(8, 16, 32, 64, 128)
+mua = seq(30, 35, by = 0.1)
+power = sapply(nseq, function(n)
+  pnorm(mu0 + z * sigma / sqrt(n), mean = mua, sd = sigma / sqrt(n), 
+        lower.tail = FALSE)
+)
+colnames(power) <- paste("n", nseq, sep = "")
+d <- data.frame(mua, power)
+d2 <- melt(d, id.vars = "mua")
+names(d2) <- c("mua", "n", "power")    
+g <- ggplot(d2, 
+            aes(x = mua, y = power, col = n)) + geom_line(size = 2)
+print(g)
+  
+```
+
+
+##  z <- qnorm(.95) 
+
+```{r define_z, echo = TRUE}
+
+z <- qnorm(.95)
+
+pnorm(30+z,mean=30,lower.tail=FALSE) 
+
+```
+With the mean set to mu_0 the two distributions, 
+null and alternative, are the same and power=alpha.
+
+##  $\mu_a$ > $\mu_0$
+
+```{r pnorm, echo = TRUE}
+
+z <- qnorm(.95)
+
+pnorm(30+z, mean=32,lower.tail=FALSE) 
+
+```
+
+With $\mu_a$ > $\mu_0$mu_a the power is at 64% as opposed to 5%.
+
+:: When the sample mean is many standard errors greater than the 
+mean hypothesized by the null hypothesis, 
+
+:: the probability of rejecting H_0 when it is false is much higher. 
+
+##  Standard deviation, sd
+
+when $sd$ = 1
+
+```{r SE_1, echo = TRUE}
+
+z <- qnorm(.95)
+
+pnorm(30+z, mean=32, sd= 1, lower.tail=FALSE) 
+
+```
+
+when $sd$ = 2
+
+```{r SE_2, echo = TRUE}
+
+z <- qnorm(.95)
+
+pnorm(30+z, mean=32, sd= 2, lower.tail=FALSE) 
+
+```
+
+:: Power decreases with increases in variation
+
+
+## Power Curves $\sigma$
+
+```{r PowerCurves_2, fig.width = 7, fig.height =3, fig.asp = .618, warning=FALSE , message=FALSE, echo=FALSE}
+
+z <- qnorm(.95)
+mu0 <- 30
+n <- 16
+sigseq = c(8, 16, 32, 64, 128)
+mua = seq(30, 35, by = 0.1)
+power = sapply(sigseq, function(sigma)
+  pnorm(mu0 + z * sigma / sqrt(n), mean = mua, sd = sigma / sqrt(n), 
+        lower.tail = FALSE)
+)
+colnames(power) <- paste("sigma", sigseq, sep = "")
+d <- data.frame(mua, power)
+d2 <- melt(d, id.vars = "mua")
+names(d2) <- c("mua", "sigma", "power")    
+g <- ggplot(d2, 
+            aes(x = mua, y = power, col = sigma)) + geom_line(size = 2)
+print(g)   
+  
+```
+
+## RECAP
+
+:: As $\alpha$ increases, power increases
+
+:: In a one sided test the power is greater as 
+$\alpha$ is bigger than $\alpha$/2
+
+## Power Curves $\alpha$
+
+```{r PowerCurves_3, fig.width = 7, fig.height =3, fig.asp = .618, warning=FALSE , message=FALSE, echo=FALSE}
+
+alseq = c(.95, .9, .85, .8)
+mua = seq(30, 35, by = 0.1)
+z = lapply(alseq, qnorm)
+power = sapply(z, function(z)
+   pnorm(mu0 + z * sigma / sqrt(n), mean = mua, sd = sigma / sqrt(n), 
+        lower.tail = FALSE)
+)
+colnames(power) <- paste("alpha", 1-alseq, sep = "")
+d <- data.frame(mua, power)
+d2 <- melt(d, id.vars = "mua")
+names(d2) <- c("mua", "alpha", "power")    
+g <- ggplot(d2, 
+            aes(x = mua, y = power, col = alpha)) + geom_line(size = 2)
+print(g)  
+  
+```
+
+
+## if H_a specified that $\mu$ < $\mu_0$
+
+:: flip the above reasoning
+
+:: look at the right tail
+
+## RECAP
+
+Suppose H_a says that mu > mu_0. 
+:: power = 1 - beta 
+
+= Prob ( X' > mu_0 +  z_(1-alpha) * sigma/sqrt(n)) 
+
+assuming that X'~ N(mu_a,sigma^2/n). 
+
+:: given the context of the problem, ...
+
+## for H_a says that mu > mu_0 we know 
+
+:: the population mean equals $\mu_0$
+
+:: the level size of the test is $\alpha$
+
+
+## $\beta$, $\sigma$, $n$, and $\mu_a$
+
+In the statement 1 - beta 
+
+= Prob( X' > mu_0 + z_(1-alpha) * sigma/sqrt(n)) 
+
+:: Given $\mu_a$ > $\mu_0$, $\mu_0$ and $\alpha$ are specified, 
+:: and X' depends on the data. 
+
+:: The other four quantities, ($\beta$, $\sigma$, $n$,
+and $\mu_a$) are all unknown.
+
+## Solve for $P$ (power) or $n$ (sample size)
+
+:: only $\sqrt(n)$ * $\frac{\mu_a - \mu_0}{\sigma}$ is needed
+
+:: this is the effect size
+
+
+## Example: t distributions
+:: t quantile instead of the z
+
+Power is still a probability, namely 
+:: $\frac{P(X' - \mu_0)}{(S /\sqrt(n)}$ > t_(1-$\alpha$, $n$-1) 
+for H_a that mu > mu_a  
+
+:: the proposed distribution is not centered at mu_0,
+:: have to use the non-central t distribution.
+
+## R functipon power.t.test()
+
+:: omit one of the arguments and power.t.test()
+solves for it
+
+```{r Rfun_power_t_test,  echo=TRUE }
+
+power.t.test(n = 16,delta = 2 / 4, sd=1, type = "one.sample", 
+             alt = "one.sided")$power
+
+power.t.test(n = 16, delta = 2 , sd=4, type = "one.sample", 
+             alt ="one.sided")$power
+
+power.t.test(n = 16, delta = 100 , sd=200, type = "one.sample", 
+             alt ="one.sided")$power
+
+```
+
+## Constant POWER
+
+:: keeping the effect size (the ratio delta/sd) constant preserved the power
+
+:: get a constant effect size with 
+
+_with the same values for n (16) & alpha (.05), but _
+_different delta and standard deviation values_
+
+
+## Solve for $n$
+
+:: specify a power we want and solve for the sample size $n$.
+
+
+```{r Rfun_power_t_test2, echo = TRUE}
+
+power.t.test(power = .8, delta = 2 / 4, sd=1, type = "one.sample", 
+             alt = "one.sided")$n
+
+power.t.test(power = .8, delta = 2, sd=4, type = "one.sample", 
+             alt = "one.sided")$n
+
+power.t.test(power = .8, delta = 100, sd=200, type = "one.sample", 
+             alt = "one.sided")$n
+```
+
+## Solve for $\delta$ change $n$
+
+:: use power.t.test to find delta for a power=.8 and n=26 and sd=1
+
+```{r Rfun_power_t_test3, echo = TRUE}
+
+power.t.test(power = .8, n=26, sd=1, type = "one.sample",  
+             alt = "one.sided")$delta
+```
+
+
+:: use power.t.test to find delta for a power=.8 and n=27 and sd=1
+
+```{r Rfun_power_t_test4, echo = TRUE}
+
+power.t.test(power = .8, n=27, sd=1, type = "one.sample",  
+             alt = "one.sided")$delta
+```
+
+## Solve for $\delta$ change $sd$
+
+:: use power.t.test to find delta for a power=.8 and n=26 and sd=2
+
+```{r Rfun_power_t_test5, echo = TRUE}
+
+power.t.test(power = .8, n=26, sd=2, type = "one.sample",  
+             alt = "one.sided")$delta
+```
+
+
+[Plots from swirl repo](https://github.com/swirldev/swirl_courses)
