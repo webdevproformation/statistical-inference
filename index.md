@@ -19,6 +19,12 @@ Statistical Inference, with R, navigated the entire data science pipeline from d
 
 ### Other Publications on rpubs 
 
+[P for POWER](https://rpubs.com/lindangulopez/709298)
+
+<a href="https://rpubs.com/lindangulopez/709298">
+<img src="https://github.com/lindangulopez/statistical-inference/blob/master/P4Power.png?raw=true" alt="rpubs_slides" >
+</a>
+
 [The Central Limit Theorem, a Swiss Army Knife of Statistics](https://rpubs.com/lindangulopez/708518)
 
 <a href="https://rpubs.com/lindangulopez/708518">
