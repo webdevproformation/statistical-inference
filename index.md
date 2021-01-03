@@ -114,6 +114,8 @@ Statistical Inference, with R, navigated the entire data science pipeline from d
 *English C2, French C1, Afrikaans, B2, Spanish A2*
 
 <h3><a href="https://lindangulopez.github.io/">Linda Angulo Lopez</a></h3>
-[7022Z - 51168006800018  - FR84511680068 ](https://www.linkedin.com/in/lindangulopez/)
+
+[7022Z - 51168006800018  - FR84511680068](https://www.linkedin.com/in/lindangulopez/)
+
 - consultation fees from 50€/hr
 - full deployment scheduled, September 2021
