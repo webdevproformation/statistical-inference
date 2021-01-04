@@ -11,6 +11,22 @@ Statistical Inference, with R, navigated the entire data science pipeline from d
 <img src="https://github.com/lindangulopez/statistical-inference/blob/master/(7)%20Statistical%20methods%20for%20dealing%20with%20large%20&%20small%20datasets%20_%20LinkedIn_files/Github.png?raw=true" alt="https://xkcd.com/1132/" >
 </a>
 
+
+# Ask The Right Questions:
+
+“Which of the variables matter among the thousands should be measured?”
+
+“How do we relate unrelated information?”
+
+“How do we correct for errors?”
+
+[ Multiple Testing](https://rpubs.com/lindangulopez/709713)
+
+<a href="https://rpubs.com/lindangulopez/709713">
+<img src="https://github.com/lindangulopez/statistical-inference/blob/master/(7)%20Statistical%20methods%20for%20dealing%20with%20large%20&%20small%20datasets%20_%20LinkedIn_files/ControlErrorRate.png?raw=true" >
+</a>
+
+
 ### FINAL PROJECT : consists of two parts 
 
 (i) a [simulation exercise](https://rpubs.com/lindangulopez/709073) and 
