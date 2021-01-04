@@ -1,0 +1,281 @@
+---
+title: "Multiple Testing"
+author: "Linda Angulo Lopez"
+date: "04/01/2021"
+output: 
+  html_document:
+    fig_height: 3
+    fig_width: 5
+  pdf_document:
+    fig_height: 3
+    fig_width: 5
+  word_document:
+    fig_height: 3
+    fig_width: 5
+widgets: mathjax    
+---
+
+```{r, setup, include=FALSE}
+require(mosaic)    # Load additional packages here 
+require(ggformula) # formula interface to ggplot2
+
+# Some customization.  You can alter or delete as desired (if you know what you are doing).
+
+theme_set(theme_bw()) # change theme for ggplot2
+trellis.par.set(theme=theme.mosaic()) # change default color scheme for lattice
+
+knitr::opts_chunk$set(
+  tidy=FALSE,     # display code as typed
+  size="small")   # slightly smaller font for code
+```
+
+## Ask the right questions:
+
+
+_"Which of the variables matter among the thousands should be measured?"_
+
+
+_"How do we relate unrelated information?"_
+
+
+_"How do we correct for errors?"_
+
+
+```{r,  R_environment, results='hide',  warning=FALSE , message=FALSE}
+#R4.0 Environmental Set for:
+library(knitr) # creating a pdf document ; 
+library(ggplot2) # making plots
+library(reshape2) # data frames
+
+```
+
+
+[mySWIRL notes: Statistical_Inference](https://cran.r-project.org/web/packages/swirl/swirl.pdf)
+
+
+# Multiple Testing
+
+Multiple testing is when you use  data to test several hypotheses, for example if we set $\alpha$ =.5 we can only test 20 hypotheses before one of the outcomes is an error and even if a p value is significantly low, it could be false. In these cases error measures, like the the Family Wise Error Rate, $FWER$, come into play, especially for big data analysis, where for example if we run 10 000 test at $\alpha$ = .05, we would get 500 false positives! 
+
+To avoid this many false positive we can use multiple test corrections, like the Bonferroni correction, by reducing $\alpha$ dramatically, however here too many results fail, so the False Discovery Rate, $FDR$ is simply limited in most disciplines with the Benjamini-Hochberg method, $BH$ this is much like the $k$ evaluation. 
+
+Both these methods adjust the threshold $\alpha$, an equivalent corrective approach is to adjust the $p$-values, then call all $p'_i$ < $\alpha$ significant.
+
+## Status Quo vs Discoveries
+
+- $m_0$ are actually true and 
+
+- $m$ - $m_0$ are actually false
+
+- $R$ have been declared significant, these are discoveries
+
+- A False Positive falsely claims a significant positive result, it is a Type I error, denoted $V$.
+
+- A False Negative falsely claims a non-significant negative result, it is a Type II error, denoted $T$.
+
+- So, the False Discovery Rate, $FDR$ is the expected value of the Type I errors over the discoveries: $E(V/R)$
+
+- and the False Positive Rate, $FPR$, will be the expected value of the Type I errors over the true events: $E(V/m_0)$ 
+
+
+
+_$FDR$ = $E(V/R)$_
+
+_$FPR$ = $E(V/m_0)$_
+
+
+### The Family Wise Error Rate, $FWER$
+
+The probability of at least one false positive, $Pr$, that is $V$ >= 1, is the Family
+Wise Error Rate, $FWER$.
+
+### Bonferroni correction
+
+Is a correction test which dramatically reduces $\alpha$ to avoid many false positives, in big data analysis. We set $\alpha_F$ = $\alpha/m$ and call a test result significant if its $p$-value < $\alpha_F$. The drawback is that too many results would fail if this correction is applied. 
+
+Here you could adjust these by setting $p'_i$ = max($m$ * $p_i$, 1) for each $p$-value, then if you would call all $p'_i$ < $\alpha$ significant you will control the $FWER$.
+
+
+
+## Limit the $FDR$
+
+In the Benjamini-Hochberg method, $BH$ a $p$-values is compared to a value that depends on its ranking, $p_i$ <= ($\alpha$*$i$)/$m$.
+
+This is equivalent to finding the largest $k$ such that $p_k$ <= ($k$ * $\alpha$)/$m$, for a given alpha and then rejecting all the null hypotheses for $i$ = 1,...,$k$.
+
+The following chart shows the $p$-values for 10 tests performed at the $\alpha$=.2 level and three cutoff lines. The $p$-values are shown in order from left to right along the x-axis.
+
+![JHU chart](https://github.com/lindangulopez/statistical-inference/blob/master/(7)%20Statistical%20methods%20for%20dealing%20with%20large%20&%20small%20datasets%20_%20LinkedIn_files/corrected1.jpeg?raw=true) 
+
+
+- The red line is the threshold for No Corrections (p-values are compared to alpha=.2),
+
+- the blue line is the Bonferroni threshold, alpha=.2/10 = .02, and 
+
+- the gray line shows the Benjamini-Hochberg correction. 
+
+The $BH$ correction which limits the $FWER$ is proportional to the ranking of the values. Both corrections, Bonferroni and BH methods adjust the threshold $\alpha$, an equivalent corrective approach is to adjust the p-values, so they're not classical p-values anymore, but they can be compared directly to the original alpha.
+
+## Worked Examples:
+
+- no relation 
+
+```{r}
+
+## create an array of p-values
+
+set.seed(1010093)
+pValues <- rep(NA,1000)
+for(i in 1:1000){
+  y <- rnorm(20)
+  x <- rnorm(20)
+  pValues[i] <- summary(lm(y ~ x))$coeff[2,4]
+}
+#inspect array
+head(pValues)
+
+#count p < .05
+sum(pValues < 0.05)
+
+```
+
+### There should be close to 50 false positives, we can control this with the R function p.adjust()
+
+
+```{r}
+
+sum(p.adjust(pValues,method="bonferroni") < 0.05)
+
+```
+
+- The above method should be more radical than the next
+
+```{r}
+
+sum(p.adjust(pValues,method="BH") < 0.05)
+
+```
+ 
+_but as there was no relation to begin will all false positive were eliminated._
+
+
+- Half of the is paired 
+
+```{r}
+
+## create an array of p-values
+
+set.seed(1010093)
+pValues2 <- rep(NA,1000)
+for(i in 1:1000){
+  x <- rnorm(20)
+  # First 500 beta=0, last 500 beta=2
+  if(i <= 500){y <- rnorm(20)}else{ y <- rnorm(20,mean=2*x)}
+  pValues2[i] <- summary(lm(y ~ x))$coeff[2,4]
+}
+trueStatus <- rep(c("zero","not zero"),each=500)
+
+#inspect array
+tail(trueStatus)
+
+```
+
+### We can count & tabulate the each combination (TRUE,"zero"), (TRUE,"not zero"), (FALSE,"zero"), and (FALSE,"not zero")
+
+
+```{r}
+
+table(pValues2 < 0.05, trueStatus)
+```
+
+This is the result  without any correction, there should be about 5% false positives, 
+this should be reduced if we apply a correction.
+
+
+```{r}
+
+table(p.adjust(pValues2,method="bonferroni") < 0.05, trueStatus)
+
+```
+ 
+
+And here is a much less stringent control.
+
+
+```{r}
+
+table(p.adjust(pValues2,method="BH") < 0.05, trueStatus)
+
+```
+ 
+Here is a plot from the SWIRL repo
+
+```{r}
+
+plot.new()
+par(mfrow=c(1,2))
+plot(pValues2,p.adjust(pValues2,method="bonferroni"),pch=2)
+plot(pValues2,p.adjust(pValues2,method="BH"),pch=2)
+
+```
+ 
+We see that with the  Bonferroni control only a few of the adjusted values are below 1. For the BH, the adjusted values are slightly larger than the original values.
+
+### Documenting file creation 
+
+It's useful to record some information about how your file was created.
+
+  * File creation date: `r Sys.Date()`
+  * `r R.version.string`
+  * R version (short form): `r getRversion()`
+  * `mosaic` package version: `r packageVersion("mosaic")`
+  * Additional session information
+
+
+```{r echo=TRUE}
+sessionInfo()  # could use devtools::session_info() if you prefer that
+```
+
+
+`RECAP: hypothesis testing`
+
+- A Type I error is rejecting a true hypothesis or "convicting an innocent person"
+
+- A Type II error is failing to reject a false hypothesis or "acquitting a guilty person"
+
+- The null hypothesis, $H_0$, represents the status_quo and is assumed to be true.
+
+- The test statistic is $\mu_a$, usually the mean of the alternative.
+
+- The $\alpha$ levels are set before the test is conducted, often at 5%.
+
+- The $p$ value is the probability under the null hypothesis of obtaining evidence as or more extreme than the test statistic.
+
+- if a p-value is found to be less than alpha (say 0.05), then the test result is considered statistically significant, i.e., surprising and unusual, and the the status quo is rejected.
+
+
+
+```{r conf_5pct, fig.width = 5, fig.height =3, fig.asp = .618, warning=FALSE , message=FALSE, echo=FALSE}
+
+x <- seq(-4,4, length = 2000)
+dat <- data.frame(x=x, y=dnorm(x))
+g <- ggplot(dat, aes(x = x, y = y)) + geom_line(size = 1.5)+scale_y_continuous(limits=c(0,max(dat$y)))
+suppressWarnings(g <- g+ layer("area", stat="identity", position="identity",mapping = aes(x=ifelse(x>qnorm(.95),x,NA)),
+            params=list(fill="red",alpha=.5, na.rm=TRUE))) 
+#suppressWarnings(g <- g + geom_line(x=2.0,size=1.5,colour="blue"))
+suppressWarnings(print(g))
+
+```
+
+
+### Destination formats
+
+  * File can be knit to `HTML, PDF, or Word`. 
+  
+
+### Documenting file creation 
+  * File creation date: `r Sys.Date()`
+  * `r R.version.string`
+  * R version (short form): `r getRversion()`
+  * `mosaic` package version: `r packageVersion("mosaic")`
+  * Additional session information  
