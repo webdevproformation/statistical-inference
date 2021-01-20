@@ -139,5 +139,5 @@ Statistical Inference, with R, navigated the entire data science pipeline from d
 
 [7022Z - 51168006800018  - FR84511680068](https://www.linkedin.com/in/lindangulopez/)
 
-- consultation fees from 50€/hr
+- consultation fees from 500€/jour
 - full deployment scheduled, September 2021
